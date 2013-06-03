@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+	<definitionId>database-oracle11g</definitionId>
+	<definitionVersion>1.0.0</definitionVersion>
+    <description>Oracle implementation</description>
+	<implementationClassname>org.bonitasoft.connectors.database.jdbc.JdbcConnector</implementationClassname>
+	<implementationId>database-oracle11g-impl</implementationId>
+	<implementationVersion>1.0.10</implementationVersion>
+
+$Dependencies$
+	
+</implementation:connectorImplementation>
