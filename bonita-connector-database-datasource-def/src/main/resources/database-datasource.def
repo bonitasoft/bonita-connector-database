@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition:ConnectorDefinition xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<id>database-datasource</id>
+	<version>1.0.0</version>
+	<icon>database.png</icon>
+
+	<category id="database" icon="database.png" />
+
+	<input name="dataSourceName" type="java.lang.String" defaultValue="java:/comp/env/yourDataSource" mandatory="true"/>
+	<input name="properties" type="java.util.List" />
+	<input name="script" type="java.lang.String" mandatory="true" />
+	<input name="separator" type="java.lang.String" mandatory="false" />
+
+    <output name="resultset" type="java.sql.ResultSet" />
+
+    <page id="datasource">
+        <widget id="dataSourceName" inputName="dataSourceName" xsi:type="definition:Text" />
+        <widget id="properties" inputName="properties" xsi:type="definition:Array" cols="2" rows="-1" fixedCols="true" fixedRows="false">
+            <colsCaption>Name</colsCaption>
+            <colsCaption>Value</colsCaption>
+        </widget>
+    </page>
+
+	<page id="qry">
+		<widget id="script" inputName="script" xsi:type="definition:TextArea" />
+		<widget id="separator" inputName="separator" xsi:type="definition:Text" />
+	</page>
+
+</definition:ConnectorDefinition>

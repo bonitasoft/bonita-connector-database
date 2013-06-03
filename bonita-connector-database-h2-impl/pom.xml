@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>bonita-connector-database</artifactId>
+        <groupId>org.bonitasoft.connectors</groupId>
+        <version>6.0.0</version>
+    </parent>
+
+    <artifactId>bonita-connector-database-h2-impl</artifactId>
+
+    <properties>
+        <implementation.id>database-h2</implementation.id>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <artifactId>bonita-connector-database-h2-def</artifactId>
+            <groupId>org.bonitasoft.connectors</groupId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>bonita-connector-database-jdbc-impl</artifactId>
+            <groupId>org.bonitasoft.connectors</groupId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.bonitasoft.connectors</groupId>
+                        <artifactId>bonita-connectors-assembly</artifactId>
+                        <version>6.0.0</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>assemble</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>connector-assembly</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.1</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
