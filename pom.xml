@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>bonita-connectors</artifactId>
 		<groupId>org.bonitasoft.connectors</groupId>
-		<version>6.0.0</version>
+		<version>6.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>bonita-connector-database</artifactId>
-	<version>6.0.0</version>
+	<version>6.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>bonita-connector-database</name>

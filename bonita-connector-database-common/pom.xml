@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>bonita-connector-database</artifactId>
 		<groupId>org.bonitasoft.connectors</groupId>
-		<version>6.0.0</version>
+		<version>6.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>bonita-connector-database-common</artifactId>
