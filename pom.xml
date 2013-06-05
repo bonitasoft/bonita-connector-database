@@ -69,7 +69,7 @@
     </build>
 
     <scm>
-        <developerConnection>scm:svn:https://svn.bonitasoft.org/bonita-connectors-6/tags/connectors/bonita-connector-database/bonita-connector-database-6.0.0</developerConnection>
+        <developerConnection>scm:svn:https://svn.bonitasoft.org/bonita-connectors-6/branches/connectors/bonita-connector-database/bonita-connector-database-6.0.x</developerConnection>
     </scm>
 
 </project>
