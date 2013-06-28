@@ -6,6 +6,7 @@
 	<icon>oracle.png</icon>
 
 	<category id="database" icon="database.png" />
+	<category id="oracle" icon="oracle.png" parentCategoryId="database" />
 
 	<input name="driver" type="java.lang.String" defaultValue="oracle.jdbc.driver.OracleDriver" mandatory="true" />
 	<input name="url" type="java.lang.String" defaultValue="jdbc:oracle:thin:@HOSTNAME:PORT:XE"

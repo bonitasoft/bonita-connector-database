@@ -6,6 +6,7 @@
 	<icon>mssqlserver.png</icon>
 
 	<category id="database" icon="database.png" />
+	<category id="mssqlserver" icon="mssqlserver.png" parentCategoryId="database" />
 
 	<input name="driver" type="java.lang.String" defaultValue="com.microsoft.sqlserver.jdbc.SQLServerDriver" mandatory="true" />
 	<input name="url" type="java.lang.String" defaultValue="jdbc:jtds:sqlserver://HOSTNAME:PORT/DATABASE"

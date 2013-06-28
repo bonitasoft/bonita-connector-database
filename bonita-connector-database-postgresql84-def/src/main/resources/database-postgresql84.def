@@ -6,6 +6,7 @@
 	<icon>postgresql.png</icon>
 
 	<category id="database" icon="database.png" />
+	<category id="postgresql" icon="postgresql.png" parentCategoryId="database" />
 
 	<input name="driver" type="java.lang.String" defaultValue="org.postgresql.Driver" mandatory="true" />
     <input name="url" type="java.lang.String" defaultValue="jdbc:postgresql://HOSTNAME:PORT/DATABASE" mandatory="true"/>
