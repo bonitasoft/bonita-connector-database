@@ -3,7 +3,7 @@
                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<id>database-sybase</id>
 	<version>1.0.0</version>
-	<icon>sybase.png</icon>
+	<icon>sybase.jpg</icon>
 
 	<category id="database" icon="database.jpg" />
 
