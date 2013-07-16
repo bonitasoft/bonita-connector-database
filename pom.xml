@@ -64,8 +64,8 @@
     </build>
 
     <scm>
-        <developerConnection>scm:svn:https://svn.bonitasoft.org/bonita-connectors-6/trunk/connectors/bonita-connector-database/</developerConnection>
-        <connection>scm:svn:https://svn.bonitasoft.org/bonita-connectors-6/trunk/connectors/bonita-connector-database/</connection>
+        <developerConnection>scm:git:https://svn.bonitasoft.org/bonita-connectors-6/trunk/connectors/bonita-connector-database/</developerConnection>
+        <connection>scm:git:https://svn.bonitasoft.org/bonita-connectors-6/trunk/connectors/bonita-connector-database/</connection>
         <url>https://github.com/bonitasoft/bonita-connector-database</url>
         <tag>HEAD</tag>
     </scm>
