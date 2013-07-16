@@ -59,17 +59,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.4</version>
-                <configuration>
-                    <tagBase>https://svn.bonitasoft.org/bonita-connectors-6/tags/connectors/bonita-connector-database</tagBase>
-                    <preparationGoals>clean install</preparationGoals>
-                    <goals>deploy</goals>
-                </configuration>
             </plugin>
         </plugins>
     </build>
 
     <scm>
         <developerConnection>scm:svn:https://svn.bonitasoft.org/bonita-connectors-6/trunk/connectors/bonita-connector-database/</developerConnection>
+        <connection>scm:svn:https://svn.bonitasoft.org/bonita-connectors-6/trunk/connectors/bonita-connector-database/</connection>
+        <url>https://github.com/bonitasoft/bonita-connector-database</url>
+        <tag>HEAD</tag>
     </scm>
 
 </project>
