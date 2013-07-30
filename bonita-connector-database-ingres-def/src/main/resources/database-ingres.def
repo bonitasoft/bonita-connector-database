@@ -5,6 +5,7 @@
 	<version>1.0.0</version>
 	<icon>ingres.png</icon>
 
+    <category id="others" parentCategoryId="database" icon="database.png" />
 	<category id="database" icon="database.png" />
 
 	<input name="driver" type="java.lang.String" defaultValue="com.ingres.jdbc.IngresDriver" mandatory="true" />

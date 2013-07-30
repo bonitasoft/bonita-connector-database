@@ -4,6 +4,7 @@
 	<version>1.0.0</version>
 	<icon>database.png</icon>
 
+    <category parentCategoryId="database" id="generic" icon="database.png" />
 	<category id="database" icon="database.png" />
 
 	<input name="dataSourceName" type="java.lang.String" defaultValue="java:/comp/env/yourDataSource" mandatory="true"/>

@@ -5,7 +5,8 @@
 	<version>1.0.0</version>
 	<icon>database.png</icon>
 
-	<category id="database" icon="database.png" />
+    <category parentCategoryId="database" id="generic" icon="database.png" />
+    <category id="database" icon="database.png" />
 
 	<input name="driver" type="java.lang.String" defaultValue="org.postgresql.Driver" mandatory="true" />
 	<input name="url" type="java.lang.String" defaultValue="jdbc:DBMS://HOSTNAME:PORT/DATABASE"
