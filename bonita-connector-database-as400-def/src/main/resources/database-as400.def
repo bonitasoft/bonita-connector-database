@@ -5,6 +5,7 @@
 	<version>1.0.0</version>
 	<icon>as400.png</icon>
 
+    <category id="others" parentCategoryId="database" icon="database.png" />
 	<category id="database" icon="database.png" />
 
 	<input name="driver" type="java.lang.String" defaultValue="com.ibm.as400.access.AS400JDBCDriver" mandatory="true" />
