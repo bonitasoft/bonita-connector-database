@@ -7,8 +7,8 @@
 
 	<category id="database" icon="database.jpg" />
 
-	<input name="driver" type="java.lang.String" defaultValue="com.sybase.jdbc3.jdbc.SybDriver" mandatory="true" />
-	<input name="url" type="java.lang.String" defaultValue="jdbc:jtds:sybase://HOSTNAME:PORT/DATABASE" mandatory="true"/>
+	<input name="driver" type="java.lang.String" defaultValue="com.sybase.jdbc4.jdbc.SybDriver" mandatory="true" />
+	<input name="url" type="java.lang.String" defaultValue="jdbc:sybase:Tds:HOSTNAME:PORT/DATABASE" mandatory="true"/>
 	<input name="script" type="java.lang.String" mandatory="true"/>
 	<input name="username" type="java.lang.String" />
 	<input name="password" type="java.lang.String" />
