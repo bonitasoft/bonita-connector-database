@@ -9,7 +9,7 @@
 	<category id="database" icon="database.png" />
 
 	<input name="driver" type="java.lang.String" defaultValue="com.teradata.jdbc.TeraDriver" mandatory="true" />
-	<input name="url" type="java.lang.String" defaultValue="jdbc:teradata://HOSTNAME/DATABASE=DATABASE,PORT=PORT" mandatory="true"/>
+	<input name="url" type="java.lang.String" defaultValue="jdbc:teradata://[HOSTNAME]/DATABASE=[DATABASE],PORT=[PORT]" mandatory="true"/>
 	<input name="script" type="java.lang.String" mandatory="true"/>
 	<input name="username" type="java.lang.String" />
 	<input name="password" type="java.lang.String" />
