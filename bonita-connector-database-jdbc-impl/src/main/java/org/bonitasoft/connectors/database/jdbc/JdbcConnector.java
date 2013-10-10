@@ -187,6 +187,7 @@ public class JdbcConnector implements Connector {
 				}
 			} else {
 				database.executeCommand(script);
+				result.put(RESULTSET_OUTPUT, null);
 			}
 			return result;
 		} catch (final SQLException sqle) {
@@ -259,7 +260,9 @@ public class JdbcConnector implements Connector {
 		final List<String> commands = getScriptCommands();
 		try {
 			database.executeBatch(commands, true);
-			return Collections.emptyMap();
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put(RESULTSET_OUTPUT, null);
+			return result;
 		} catch (final Exception e) {
 			throw new ConnectorException(e);
 		}
