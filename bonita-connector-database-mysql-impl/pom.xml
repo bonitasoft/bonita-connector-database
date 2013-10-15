@@ -36,12 +36,6 @@
 		<plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.bonitasoft.connectors</groupId>
-                        <artifactId>bonita-connectors-assembly</artifactId>
-                    </dependency>
-                </dependencies>
                 <executions>
                     <execution>
                         <id>assemble</id>
