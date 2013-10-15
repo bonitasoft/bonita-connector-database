@@ -4,10 +4,14 @@
   <parent>
     <artifactId>bonita-connector-database</artifactId>
     <groupId>org.bonitasoft.connectors</groupId>
-    <version>6.1.0-rc-14</version>
+    <version>6.1.0-rc-15</version>
   </parent>
   
 
   <artifactId>bonita-connector-database-mysql-def</artifactId>
 
+
+  <scm>
+    <tag>bonita-connector-database-6.1.0-rc-15</tag>
+  </scm>
 </project>
