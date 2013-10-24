@@ -91,7 +91,7 @@ public class JdbcConnectorTest {
 	}
 
 	@Cover(classes = { JdbcConnector.class }, concept = BPMNConcept.CONNECTOR, keywords = { "database", "Jdbc" },
-			story = "Validate input parameters")
+			story = "Validate input parameters", jira = "")
 	@Test
 	public void testValidateInputParametersWithNullValues() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -108,7 +108,7 @@ public class JdbcConnectorTest {
 	}
 
 	@Cover(classes = { JdbcConnector.class }, concept = BPMNConcept.CONNECTOR, keywords = { "database", "Jdbc" },
-			story = "Validate input parameters")
+			story = "Validate input parameters", jira = "")
 	@Test
 	public void testValidateInputParametersWithEmptyValues() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -128,7 +128,7 @@ public class JdbcConnectorTest {
 	}
 
 	@Cover(classes = { JdbcConnector.class }, concept = BPMNConcept.CONNECTOR, keywords = { "database", "Jdbc" },
-			story = "Validate input parameters")
+			story = "Validate input parameters", jira = "")
 	@Test
 	public void testValidateInputParameters() throws ConnectorValidationException {
 		JdbcConnector jdbcConnector = getJdbcConnectorWithNoParameter();
@@ -431,7 +431,7 @@ public class JdbcConnectorTest {
 	}
 
 	@Cover(classes = { JdbcConnector.class }, concept = BPMNConcept.CONNECTOR, keywords = { "database", "jdbc" },
-			story = "Insertion of one line in db")
+			story = "Insertion of one line in db", jira = "")
 	@Test
 	public void executeInsertOneLine() throws Exception {
 		final List<List<Object>> result = queryAndCheck(insertBuilder("(firstname, age, lastname, average)", "('Arthur', 25, 'Doe', 17)"),
