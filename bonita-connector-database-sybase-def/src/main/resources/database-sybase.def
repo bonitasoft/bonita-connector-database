@@ -5,7 +5,7 @@
 	<version>1.0.0</version>
 	<icon>sybase.jpg</icon>
 
-	<category id="database" icon="database.png" />
+	<category id="database" icon="database.jpg" />
 
 	<input name="driver" type="java.lang.String" defaultValue="com.sybase.jdbc4.jdbc.SybDriver" mandatory="true" />
 	<input name="url" type="java.lang.String" defaultValue="jdbc:sybase:Tds:HOSTNAME:PORT/DATABASE" mandatory="true"/>
