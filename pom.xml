@@ -8,7 +8,7 @@
 	</parent>
 
 	<artifactId>bonita-connector-database</artifactId>
-	<version>6.1.1</version>
+	<version>6.1.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>bonita-connector-database</name>
@@ -67,7 +67,7 @@
         <developerConnection>scm:git:git@github.com:bonitasoft/bonita-connector-database.git</developerConnection>
         <connection>scm:git:git@github.com:bonitasoft/bonita-connector-database.git</connection>
         <url>https://github.com/bonitasoft/bonita-connector-database</url>
-        <tag>bonita-connector-database-6.1.1</tag>
+        <tag>bonita-connector-database-6.1.0</tag>
     </scm>
 
 </project>
