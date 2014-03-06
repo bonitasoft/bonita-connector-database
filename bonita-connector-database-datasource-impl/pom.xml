@@ -14,17 +14,18 @@
 	</properties>
 
 	<artifactId>bonita-connector-database-datasource-impl</artifactId>
-
+	<version>1.0.11</version>
+	
 	<dependencies>
 		<dependency>
 			<artifactId>bonita-connector-database-datasource-def</artifactId>
 			<groupId>org.bonitasoft.connectors</groupId>
-			<version>${project.version}</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<artifactId>bonita-connector-database-common</artifactId>
 			<groupId>org.bonitasoft.connectors</groupId>
-			<version>${project.version}</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<artifactId>junit</artifactId>

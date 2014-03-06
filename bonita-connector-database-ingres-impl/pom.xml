@@ -9,7 +9,8 @@
     </parent>
 
     <artifactId>bonita-connector-database-ingres-impl</artifactId>
-
+	<version>1.0.10</version>
+	
 	<properties>
 		<implementation.id>database-ingres</implementation.id>
 	</properties>
@@ -18,7 +19,7 @@
         <dependency>
             <artifactId>bonita-connector-database-ingres-def</artifactId>
             <groupId>org.bonitasoft.connectors</groupId>
-            <version>${project.version}</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <artifactId>bonita-connector-database-jdbc-impl</artifactId>
@@ -31,9 +32,7 @@
 		<plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                
             </plugin>
-            
         </plugins>
     </build>
 </project>

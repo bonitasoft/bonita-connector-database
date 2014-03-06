@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>bonita-connector-database-teradata-impl</artifactId>
-
+	<version>1.0.10</version>
 	<properties>
 		<implementation.id>database-teradata</implementation.id>
 	</properties>
@@ -19,7 +19,7 @@
 		<dependency>
 			<artifactId>bonita-connector-database-teradata-def</artifactId>
 			<groupId>org.bonitasoft.connectors</groupId>
-			<version>${project.version}</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<artifactId>bonita-connector-database-jdbc-impl</artifactId>

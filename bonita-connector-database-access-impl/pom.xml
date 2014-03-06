@@ -10,7 +10,8 @@
 	</parent>
 
 	<artifactId>bonita-connector-database-access-impl</artifactId>
-
+	<version>1.0.10</version>
+	
 	<properties>
 		<implementation.id>database-access</implementation.id>
 	</properties>
@@ -19,7 +20,7 @@
 		<dependency>
 			<artifactId>bonita-connector-database-access-def</artifactId>
 			<groupId>org.bonitasoft.connectors</groupId>
-			<version>${project.version}</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<artifactId>bonita-connector-database-jdbc-impl</artifactId>
