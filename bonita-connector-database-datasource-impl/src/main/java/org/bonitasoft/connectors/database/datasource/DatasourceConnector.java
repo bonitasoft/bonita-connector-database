@@ -36,132 +36,137 @@ import org.bonitasoft.engine.connector.ConnectorValidationException;
  */
 public class DatasourceConnector implements Connector {
 
-    public static final String DATASOURCE = "dataSourceName";
+	public static final String DATASOURCE = "dataSourceName";
 
-    public static final String SCRIPT = "script";
+	public static final String SCRIPT = "script";
 
-    public static final String SEPARATOR = "separator";
+	public static final String SEPARATOR = "separator";
 
-    public static final String PROPERTIES = "properties";
+	public static final String PROPERTIES = "properties";
 
-    private String datasource;
+	private String datasource;
 
-    private String script;
+	private String script;
 
-    private String separator;
+	private String separator;
 
-    private Properties properties;
+	private Properties properties;
 
-    private Database database;
+	private Database database;
 
-    private ResultSet data;
+	private ResultSet data;
 
-    private Logger LOGGER = Logger.getLogger(this.getClass().getName());
+	private Logger LOGGER = Logger.getLogger(this.getClass().getName());
 
-    @Override
-    public Map<String, Object> execute() throws ConnectorException {
-        if (separator != null) {
-            return executeBatch();
-        } else {
-            return executeSingleQuery();
-        }
+	@Override
+	public Map<String, Object> execute() throws ConnectorException {
+		if (separator != null) {
+			return executeBatch();
+		} else {
+			return executeSingleQuery();
+		}
 
-    }
+	}
 
-    @Override
-    public void setInputParameters(final Map<String, Object> parameters) {
-        datasource = (String) parameters.get(DATASOURCE);
-        LOGGER.info(DATASOURCE + " " + datasource);
-        script = (String) parameters.get(SCRIPT);
-        LOGGER.info(SCRIPT + " " + script);
-        separator = (String) parameters.get(SEPARATOR);
-        LOGGER.info(SEPARATOR + " " + separator);
+	@Override
+	public void setInputParameters(final Map<String, Object> parameters) {
+		datasource = (String) parameters.get(DATASOURCE);
+		LOGGER.info(DATASOURCE + " " + datasource);
+		script = (String) parameters.get(SCRIPT);
+		LOGGER.info(SCRIPT + " " + script);
+		separator = (String) parameters.get(SEPARATOR);
+		LOGGER.info(SEPARATOR + " " + separator);
 
-        List<List<Object>> propertiesList = (List<List<Object>>) parameters.get(PROPERTIES);
-        if (propertiesList != null) {
-            properties = new Properties();
-            for (List<Object> line : propertiesList) {
-                LOGGER.info("Property " + line.get(0) + " " + line.get(1));
-                properties.put(line.get(0), line.get(1));
-            }
-        }
-    }
+		List<List<Object>> propertiesList = (List<List<Object>>) parameters.get(PROPERTIES);
+		if (propertiesList != null) {
+			properties = new Properties();
+			for (List<Object> line : propertiesList) {
+				if(line.size() == 1){
+					LOGGER.info("Property " + line.get(0) + " null");
+					properties.put(line.get(0), null);
+				}else if(line.size() == 2){
+					LOGGER.info("Property " + line.get(0) + " " + line.get(1));
+					properties.put(line.get(0), line.get(1));
+				}//else ignore line
+			}
+		}
+	}
 
-    @Override
-    public void validateInputParameters() throws ConnectorValidationException {
-        final List<String> messages = new ArrayList<String>(0);
-        if (datasource == null || datasource.isEmpty()) {
-            messages.add("Datasource can't be empty");
-        }
-        if (script == null || script.isEmpty()) {
-            messages.add("Script is not set");
-        }
-        if (!messages.isEmpty()) {
-            throw new ConnectorValidationException(this, messages);
-        }
-    }
+	@Override
+	public void validateInputParameters() throws ConnectorValidationException {
+		final List<String> messages = new ArrayList<String>(0);
+		if (datasource == null || datasource.isEmpty()) {
+			messages.add("Datasource can't be empty");
+		}
+		if (script == null || script.isEmpty()) {
+			messages.add("Script is not set");
+		}
+		if (!messages.isEmpty()) {
+			throw new ConnectorValidationException(this, messages);
+		}
+	}
 
-    @Override
-    public void connect() throws ConnectorException {
-        try {
-            database = new Database(datasource, properties);
-        } catch (final Exception e) {
-            throw new ConnectorException(e);
-        }
-    }
+	@Override
+	public void connect() throws ConnectorException {
+		try {
+			database = new Database(datasource, properties);
+		} catch (final Exception e) {
+			throw new ConnectorException(e);
+		}
+	}
 
-    @Override
-    public void disconnect() throws ConnectorException {
-        if (script.toUpperCase().trim().startsWith("SELECT")) {
-            try {
-                data.close();
-            } catch (Exception e) {
-                throw new ConnectorException(e);
-            }
-        }
+	@Override
+	public void disconnect() throws ConnectorException {
+		if (script.toUpperCase().trim().startsWith("SELECT")) {
+			try {
+				data.close();
+			} catch (Exception e) {
+				throw new ConnectorException(e);
+			}
+		}
 
-        if (database != null) {
-            try {
-                database.disconnect();
-            } catch (final Exception e) {
-                throw new ConnectorException(e);
-            }
-        }
-    }
+		if (database != null) {
+			try {
+				database.disconnect();
+			} catch (final Exception e) {
+				throw new ConnectorException(e);
+			}
+		}
+	}
 
-    private Map<String, Object> executeSingleQuery() throws ConnectorException {
-        try {
-            final String command = script.toUpperCase().trim();
-            final Map<String, Object> result = new HashMap<String, Object>(2);
-            if (command.startsWith("SELECT")) {
-                data = database.select(script);
-                result.put("resultset", data);
-            } else {
-                database.executeCommand(script);
-            }
-            return result;
-        } catch (final SQLException sqle) {
-            throw new ConnectorException(sqle);
-        }
-    }
+	private Map<String, Object> executeSingleQuery() throws ConnectorException {
+		try {
+			final String command = script.toUpperCase().trim();
+			final Map<String, Object> result = new HashMap<String, Object>(2);
+			if (command.startsWith("SELECT")) {
+				data = database.select(script);
+				result.put("resultset", data);
+			} else {
+				database.executeCommand(script);
+			}
+			return result;
+		} catch (final SQLException sqle) {
+			throw new ConnectorException(sqle);
+		}
+	}
 
-    private Map<String, Object> executeBatch() throws ConnectorException {
-        final List<String> commands = getScriptCommands();
-        try {
-            database.executeBatch(commands, true);
-            return null;
-        } catch (final Exception e) {
-            throw new ConnectorException(e);
-        }
-    }
+	private Map<String, Object> executeBatch() throws ConnectorException {
+		final List<String> commands = getScriptCommands();
+		try {
+			database.executeBatch(commands, true);
+			return null;
+		} catch (final Exception e) {
+			throw new ConnectorException(e);
+		}
+	}
 
-    private List<String> getScriptCommands() {
-        final List<String> commands = new ArrayList<String>();
-        final StringTokenizer tokenizer = new StringTokenizer(script, separator);
-        while (tokenizer.hasMoreTokens()) {
-            final String command = tokenizer.nextToken();
-            commands.add(command.trim());
-        }
-        return commands;
-    }
+	private List<String> getScriptCommands() {
+		final List<String> commands = new ArrayList<String>();
+		final StringTokenizer tokenizer = new StringTokenizer(script, separator);
+		while (tokenizer.hasMoreTokens()) {
+			final String command = tokenizer.nextToken();
+			commands.add(command.trim());
+		}
+		return commands;
+	}
 }

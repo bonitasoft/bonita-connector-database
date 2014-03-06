@@ -9,7 +9,7 @@
 	<category id="database" icon="database.png" />
 
 	<input name="driver" type="java.lang.String" defaultValue="com.informix.jdbc.IfxDriver" mandatory="true" />
-	<input name="url" type="java.lang.String" defaultValue="jdbc:informix-sqli://HOSTNAME:PORT/DATABASE"
+	<input name="url" type="java.lang.String" defaultValue="jdbc:informix-sqli://[HOSTNAME]:[PORT]/[DBNAME]:INFORMIXSERVER=[SERVERNAME]"
            mandatory="true"/>
 	<input name="script" type="java.lang.String" mandatory="true"/>
 	<input name="username" type="java.lang.String" />

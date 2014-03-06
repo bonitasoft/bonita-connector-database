@@ -9,7 +9,7 @@
 	<category id="mssqlserver" icon="mssqlserver.png" parentCategoryId="database" />
 	
 	<input name="driver" type="java.lang.String" defaultValue="com.microsoft.sqlserver.jdbc.SQLServerDriver" mandatory="true" />
-	<input name="url" type="java.lang.String" defaultValue="jdbc:sqlserver://HOSTNAME:PORT/DATABASE"
+	<input name="url" type="java.lang.String" defaultValue="jdbc:sqlserver://HOSTNAME:PORT;databaseName=DATABASENAME"
            mandatory="true"/>
 	<input name="script" type="java.lang.String" mandatory="true"/>
 	<input name="username" type="java.lang.String" />

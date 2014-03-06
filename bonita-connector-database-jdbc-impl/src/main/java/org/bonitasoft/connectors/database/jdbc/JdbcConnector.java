@@ -17,7 +17,6 @@ package org.bonitasoft.connectors.database.jdbc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -187,6 +186,7 @@ public class JdbcConnector implements Connector {
 				}
 			} else {
 				database.executeCommand(script);
+				result.put(RESULTSET_OUTPUT, null);
 			}
 			return result;
 		} catch (final SQLException sqle) {
@@ -202,9 +202,9 @@ public class JdbcConnector implements Connector {
 			for(int colIndex = 1;  colIndex < maxColumn ; colIndex++){
 				row.add(rSet.getObject(colIndex));
 			}
-			resultTable.add(Collections.unmodifiableList(row));
+			resultTable.add(row);
 		}
-		result.put(TABLE_RESULT_OUTPUT,Collections.unmodifiableList(resultTable));
+		result.put(TABLE_RESULT_OUTPUT,resultTable);
 		rSet.close();
 	}
 
@@ -216,13 +216,13 @@ public class JdbcConnector implements Connector {
 				for(int colIndex = 1;  colIndex < maxColumn ; colIndex++){
 					resultList.add(rSet.getObject(colIndex));
 				}
-				result.put(ONEROW_NCOL_RESULT_OUTPUT,Collections.unmodifiableList(resultList));
+				result.put(ONEROW_NCOL_RESULT_OUTPUT,resultList);
 			}else{
 				rSet.close();
 				throw new ConnectorException("One row N columns result output mode is not compatible with execucted query (invalid number of rows in resultset):\n"+script);
 			}
 		}else{
-			result.put(ONEROW_NCOL_RESULT_OUTPUT, Collections.unmodifiableList(resultList));
+			result.put(ONEROW_NCOL_RESULT_OUTPUT, resultList);
 		}
 		rSet.close();
 	}
@@ -237,7 +237,7 @@ public class JdbcConnector implements Connector {
 		while (rSet.next()) {
 			resultList.add(rSet.getObject(1));
 		}
-		result.put(NROW_ONECOL_RESULT_OUTPUT,Collections.unmodifiableList(resultList));
+		result.put(NROW_ONECOL_RESULT_OUTPUT,resultList);
 		rSet.close();
 	}
 
@@ -259,7 +259,9 @@ public class JdbcConnector implements Connector {
 		final List<String> commands = getScriptCommands();
 		try {
 			database.executeBatch(commands, true);
-			return Collections.emptyMap();
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put(RESULTSET_OUTPUT, null);
+			return result;
 		} catch (final Exception e) {
 			throw new ConnectorException(e);
 		}
