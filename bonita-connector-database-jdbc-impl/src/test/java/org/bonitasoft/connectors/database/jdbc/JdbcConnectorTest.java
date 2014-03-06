@@ -41,8 +41,6 @@ import java.util.Properties;
 
 import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
-import org.bonitasoft.engine.test.annotation.Cover;
-import org.bonitasoft.engine.test.annotation.Cover.BPMNConcept;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,8 +88,6 @@ public class JdbcConnectorTest {
 
 	}
 
-	@Cover(classes = { JdbcConnector.class }, concept = BPMNConcept.CONNECTOR, keywords = { "database", "Jdbc" },
-			story = "Validate input parameters", jira = "")
 	@Test
 	public void testValidateInputParametersWithNullValues() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -107,8 +103,6 @@ public class JdbcConnectorTest {
 		}
 	}
 
-	@Cover(classes = { JdbcConnector.class }, concept = BPMNConcept.CONNECTOR, keywords = { "database", "Jdbc" },
-			story = "Validate input parameters", jira = "")
 	@Test
 	public void testValidateInputParametersWithEmptyValues() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -127,8 +121,6 @@ public class JdbcConnectorTest {
 		}
 	}
 
-	@Cover(classes = { JdbcConnector.class }, concept = BPMNConcept.CONNECTOR, keywords = { "database", "Jdbc" },
-			story = "Validate input parameters", jira = "")
 	@Test
 	public void testValidateInputParameters() throws ConnectorValidationException {
 		JdbcConnector jdbcConnector = getJdbcConnectorWithNoParameter();
@@ -430,8 +422,6 @@ public class JdbcConnectorTest {
 		assertThat(upperCaseHeaders, not(hasItems("ID")));
 	}
 
-	@Cover(classes = { JdbcConnector.class }, concept = BPMNConcept.CONNECTOR, keywords = { "database", "jdbc" },
-			story = "Insertion of one line in db", jira = "")
 	@Test
 	public void executeInsertOneLine() throws Exception {
 		final List<List<Object>> result = queryAndCheck(insertBuilder("(firstname, age, lastname, average)", "('Arthur', 25, 'Doe', 17)"),

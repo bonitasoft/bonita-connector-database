@@ -1,23 +1,21 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<artifactId>bonita-connectors</artifactId>
 		<groupId>org.bonitasoft.connectors</groupId>
-		<version>6.2.0-rc-01</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>bonita-connector-database</artifactId>
-	<version>6.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
-	<name>bonita-connector-database</name>
 
 	<modules>
 		<module>bonita-connector-database-jdbc-def</module>
 		<module>bonita-connector-database-jdbc-impl</module>
-        <module>bonita-connector-database-datasource-def</module>
-        <module>bonita-connector-database-datasource-impl</module>
+		<module>bonita-connector-database-datasource-def</module>
+		<module>bonita-connector-database-datasource-impl</module>
 		<module>bonita-connector-database-common</module>
 		<module>bonita-connector-database-mysql-def</module>
 		<module>bonita-connector-database-mysql-impl</module>
@@ -37,37 +35,51 @@
 		<module>bonita-connector-database-ingres-impl</module>
 		<module>bonita-connector-database-mssqlserver2008-def</module>
 		<module>bonita-connector-database-mssqlserver2008-impl</module>
-        <module>bonita-connector-database-mssqlserver2012-def</module>
-        <module>bonita-connector-database-mssqlserver2012-impl</module>
+		<module>bonita-connector-database-mssqlserver2012-def</module>
+		<module>bonita-connector-database-mssqlserver2012-impl</module>
 		<module>bonita-connector-database-oracle10g-def</module>
 		<module>bonita-connector-database-oracle10g-impl</module>
-        <module>bonita-connector-database-oracle11g-def</module>
-        <module>bonita-connector-database-oracle11g-impl</module>
+		<module>bonita-connector-database-oracle11g-def</module>
+		<module>bonita-connector-database-oracle11g-impl</module>
 		<module>bonita-connector-database-postgresql84-def</module>
 		<module>bonita-connector-database-postgresql84-impl</module>
-        <module>bonita-connector-database-postgresql92-def</module>
-        <module>bonita-connector-database-postgresql92-impl</module>
+		<module>bonita-connector-database-postgresql92-def</module>
+		<module>bonita-connector-database-postgresql92-impl</module>
 		<module>bonita-connector-database-sybase-def</module>
 		<module>bonita-connector-database-sybase-impl</module>
 		<module>bonita-connector-database-teradata-def</module>
 		<module>bonita-connector-database-teradata-impl</module>
 	</modules>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.4</version>
-            </plugin>
-        </plugins>
-    </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
-    <scm>
-        <developerConnection>scm:git:git@github.com:bonitasoft/bonita-connector-database.git</developerConnection>
-        <connection>scm:git:git@github.com:bonitasoft/bonita-connector-database.git</connection>
-        <url>https://github.com/bonitasoft/bonita-connector-database</url>
-        <tag>bonita-connector-database-6.1.0-rc-14</tag>
-    </scm>
+	<properties>
+		<bonita.engine.version>6.2.0</bonita.engine.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<!-- Latest Version of Bonita released, against which the initial development 
+				has been done. -->
+			<!-- The connector will be tested against more recent version -->
+			<artifactId>bonita-common</artifactId>
+			<groupId>org.bonitasoft.engine</groupId>
+			<version>${bonita.engine.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<scm>
+		<developerConnection>scm:git:git@github.com:bonitasoft/bonita-connector-database.git</developerConnection>
+		<connection>scm:git:git@github.com:bonitasoft/bonita-connector-database.git</connection>
+		<url>https://github.com/bonitasoft/bonita-connector-database</url>
+	</scm>
 
 </project>

@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>bonita-connector-database</artifactId>
 		<groupId>org.bonitasoft.connectors</groupId>
-		<version>6.2.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<properties>
@@ -61,51 +61,13 @@
 			<version>6.0.14</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.bonitasoft.engine</groupId>
-			<artifactId>bonita-commons-test</artifactId>
-            <scope>test</scope>
-		</dependency>
+		
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<properties>
-						<property>
-							<name>listener</name>
-							<value>org.bonitasoft.engine.test.annotation.CustomListener</value>
-						</property>
-					</properties>
-					<includes>
-						<include>org/bonitasoft/connectors/database/datasource/DatasourceConnectorTest.java</include>
-					</includes>
-				</configuration>
-			</plugin>
-			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>assemble</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptorRefs>
-								<descriptorRef>connector-assembly</descriptorRef>
-							</descriptorRefs>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <version>1.5.1</version>
-            </plugin>
         </plugins>
 	</build>
 
