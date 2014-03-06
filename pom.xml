@@ -62,6 +62,7 @@
 
 	<properties>
 		<bonita.engine.version>6.2.0</bonita.engine.version>
+		<database.common.version>1.0.0</database.common.version>
 	</properties>
 
 	<dependencies>

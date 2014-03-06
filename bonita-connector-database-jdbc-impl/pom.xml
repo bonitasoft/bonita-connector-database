@@ -24,7 +24,7 @@
         <dependency>
             <artifactId>bonita-connector-database-common</artifactId>
             <groupId>org.bonitasoft.connectors</groupId>
-            <version>1.0.0</version>
+            <version>${database.common.version}</version>
         </dependency>
         <dependency>
             <artifactId>junit</artifactId>
