@@ -5,7 +5,7 @@
     <description>MsSQLServer implementation</description>
 	<implementationClassname>org.bonitasoft.connectors.database.jdbc.JdbcConnector</implementationClassname>
 	<implementationId>database-mssqlserver2008-impl</implementationId>
-	<implementationVersion>1.0.10</implementationVersion>
+	<implementationVersion>$implementation.version$</implementationVersion>
 
 $Dependencies$
 	

@@ -5,7 +5,7 @@
     <description>PostGreSQL 8.4 implementation</description>
 	<implementationClassname>org.bonitasoft.connectors.database.jdbc.JdbcConnector</implementationClassname>
 	<implementationId>database-postgresql92-impl</implementationId>
-	<implementationVersion>1.0.10</implementationVersion>
+	<implementationVersion>$implementation.version$</implementationVersion>
 
 $Dependencies$
 	

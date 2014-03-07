@@ -5,7 +5,7 @@
     <description>Sybase implementation</description>
 	<implementationClassname>org.bonitasoft.connectors.database.jdbc.JdbcConnector</implementationClassname>
 	<implementationId>database-sybase-impl</implementationId>
-	<implementationVersion>1.0.10</implementationVersion>
+	<implementationVersion>$implementation.version$</implementationVersion>
 
 $Dependencies$
 	

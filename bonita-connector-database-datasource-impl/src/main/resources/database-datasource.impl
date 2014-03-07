@@ -6,7 +6,7 @@
     <description>Based on JDBC 4 (Java 6)</description>
 	<implementationClassname>org.bonitasoft.connectors.database.datasource.DatasourceConnector</implementationClassname>
 	<implementationId>database-datasource-impl</implementationId>
-	<implementationVersion>1.0.11</implementationVersion>
+	<implementationVersion>$implementation.version$</implementationVersion>
 	
     $Dependencies$
 </implementation:connectorImplementation>
