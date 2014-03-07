@@ -23,7 +23,7 @@
         <dependency>
             <artifactId>bonita-connector-database-jdbc-impl</artifactId>
             <groupId>org.bonitasoft.connectors</groupId>
-            <version>${project.version}</version>
+            <version>1.0.10</version>
         </dependency>
 	</dependencies>
 	
@@ -31,9 +31,7 @@
 		<plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                
             </plugin>
-            
         </plugins>
     </build>
 </project>
