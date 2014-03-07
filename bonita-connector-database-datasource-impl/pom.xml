@@ -54,7 +54,8 @@
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc</artifactId>
 			<version>6</version>
-			<scope>test</scope>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/ojdbc6.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
