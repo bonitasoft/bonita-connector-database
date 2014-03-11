@@ -9,4 +9,5 @@
   
 
   <artifactId>bonita-connector-database-sybase-def</artifactId>
+   <version>1.0.0</version>
 </project>

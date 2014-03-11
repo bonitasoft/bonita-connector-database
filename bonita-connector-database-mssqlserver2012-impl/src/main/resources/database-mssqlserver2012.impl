@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
 	<definitionId>database-mssqlserver2012</definitionId>
-	<definitionVersion>1.0.0</definitionVersion>
+	<definitionVersion>$definition.version$</definitionVersion>
     <description>MsSQLServer implementation</description>
 	<implementationClassname>org.bonitasoft.connectors.database.jdbc.JdbcConnector</implementationClassname>
 	<implementationId>database-mssqlserver2012-impl</implementationId>

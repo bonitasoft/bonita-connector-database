@@ -7,6 +7,7 @@
     <version>1.0.0</version>
   </parent>
   
-
   <artifactId>bonita-connector-database-mssqlserver2012-def</artifactId>
+  <version>1.0.0</version>
+  
 </project>

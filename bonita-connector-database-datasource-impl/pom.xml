@@ -10,7 +10,7 @@
 	</parent>
 
 	<properties>
-		<implementation.id>database-datasource</implementation.id>
+		<definition.version>1.0.0</definition.version>
 	</properties>
 
 	<artifactId>bonita-connector-database-datasource-impl</artifactId>
@@ -20,12 +20,12 @@
 		<dependency>
 			<artifactId>bonita-connector-database-datasource-def</artifactId>
 			<groupId>org.bonitasoft.connectors</groupId>
-			<version>1.0.0</version>
+			<version>${definition.version}</version>
 		</dependency>
 		<dependency>
 			<artifactId>bonita-connector-database-common</artifactId>
 			<groupId>org.bonitasoft.connectors</groupId>
-			<version>${database.common.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<artifactId>junit</artifactId>

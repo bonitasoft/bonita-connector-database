@@ -9,4 +9,6 @@
     </parent>
 
     <artifactId>bonita-connector-database-jdbc-def</artifactId>
+    <version>1.0.0</version>
+    
 </project>

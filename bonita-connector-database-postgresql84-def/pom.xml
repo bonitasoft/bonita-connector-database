@@ -9,4 +9,6 @@
   
 
   <artifactId>bonita-connector-database-postgresql84-def</artifactId>
+  <version>1.0.0</version>
+   
 </project>

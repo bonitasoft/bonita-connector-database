@@ -9,4 +9,6 @@
   
 
   <artifactId>bonita-connector-database-oracle10g-def</artifactId>
+  <version>1.0.0</version>
+   
 </project>

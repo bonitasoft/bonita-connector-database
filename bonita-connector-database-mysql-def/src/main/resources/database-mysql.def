@@ -2,7 +2,7 @@
 <definition:ConnectorDefinition xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1"
                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<id>database-mysql</id>
-	<version>1.0.0</version>
+	<version>$definition.version$</version>
 	<icon>mysql.png</icon>
 
     <category id="others" parentCategoryId="database" icon="database.png" />

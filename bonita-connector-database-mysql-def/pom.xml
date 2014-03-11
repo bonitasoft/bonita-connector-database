@@ -9,4 +9,5 @@
   
 
   <artifactId>bonita-connector-database-mysql-def</artifactId>
+  <version>1.0.0</version>
 </project>

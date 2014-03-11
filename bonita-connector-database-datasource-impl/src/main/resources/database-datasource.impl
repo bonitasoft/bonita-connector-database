@@ -2,7 +2,7 @@
 <implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
 	
 	<definitionId>database-datasource</definitionId>
-	<definitionVersion>1.0.0</definitionVersion>
+	<definitionVersion>$definition.version$</definitionVersion>
     <description>Based on JDBC 4 (Java 6)</description>
 	<implementationClassname>org.bonitasoft.connectors.database.datasource.DatasourceConnector</implementationClassname>
 	<implementationId>database-datasource-impl</implementationId>

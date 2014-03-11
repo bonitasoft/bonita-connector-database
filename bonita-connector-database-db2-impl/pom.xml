@@ -13,19 +13,19 @@
 	<version>1.0.10</version>
 
 	<properties>
-		<implementation.id>database-db2</implementation.id>
+		<definition.version>1.0.0</definition.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<artifactId>bonita-connector-database-db2-def</artifactId>
 			<groupId>org.bonitasoft.connectors</groupId>
-			<version>1.0.0</version>
+			<version>${definition.version}</version>
 		</dependency>
 		<dependency>
 			<artifactId>bonita-connector-database-jdbc-impl</artifactId>
 			<groupId>org.bonitasoft.connectors</groupId>
-			<version>${project.version}</version>
+			<version>1.0.10</version>
 		</dependency>
 	</dependencies>
 
@@ -33,9 +33,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-
 			</plugin>
-
 		</plugins>
 	</build>
 </project>

@@ -12,19 +12,19 @@
 	<version>1.0.10</version>
 	
 	<properties>
-		<implementation.id>database-jdbc</implementation.id>
+		<definition.version>1.0.0</definition.version>
 	</properties>
 	
     <dependencies>
         <dependency>
             <artifactId>bonita-connector-database-jdbc-def</artifactId>
             <groupId>org.bonitasoft.connectors</groupId>
-            <version>1.0.0</version>
+            <version>${definition.version}</version>
         </dependency>
         <dependency>
             <artifactId>bonita-connector-database-common</artifactId>
             <groupId>org.bonitasoft.connectors</groupId>
-            <version>${database.common.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <artifactId>junit</artifactId>
