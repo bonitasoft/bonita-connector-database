@@ -26,6 +26,12 @@
 			<artifactId>bonita-connector-database-jdbc-impl</artifactId>
 			<groupId>org.bonitasoft.connectors</groupId>
 			<version>1.0.10</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.bonitasoft.connectors</groupId>
+					<artifactId>bonita-connector-database-jdbc-def</artifactId>
+				</exclusion>				
+			</exclusions>
 		</dependency>
 		<dependency>
 			<artifactId>junit</artifactId>
