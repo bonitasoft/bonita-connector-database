@@ -36,37 +36,33 @@ import org.bonitasoft.engine.connector.ConnectorValidationException;
  */
 public class DatasourceConnector implements Connector {
 
-	public static final String DATASOURCE = "dataSourceName";
+    private static Logger LOGGER = Logger.getLogger(DatasourceConnector.class.getName());
 
+    public static final String DATASOURCE = "dataSourceName";
 	public static final String SCRIPT = "script";
-
 	public static final String SEPARATOR = "separator";
-
 	public static final String PROPERTIES = "properties";
 
 	private String datasource;
-
 	private String script;
-
 	private String separator;
-
 	private Properties properties;
-
 	private Database database;
+	private ResultSet resultSet;
 
-	private ResultSet data;
-
-	private Logger LOGGER = Logger.getLogger(this.getClass().getName());
 
 	@Override
 	public Map<String, Object> execute() throws ConnectorException {
-		if (separator != null) {
+		if (hasMultipleQuery()) {
 			return executeBatch();
 		} else {
 			return executeSingleQuery();
 		}
-
 	}
+
+    private boolean hasMultipleQuery() {
+        return separator != null;
+    }
 
 	@Override
 	public void setInputParameters(final Map<String, Object> parameters) {
@@ -117,9 +113,9 @@ public class DatasourceConnector implements Connector {
 
 	@Override
 	public void disconnect() throws ConnectorException {
-		if (script.toUpperCase().trim().startsWith("SELECT")) {
+		if (resultSet != null) {
 			try {
-				data.close();
+				resultSet.close();
 			} catch (Exception e) {
 				throw new ConnectorException(e);
 			}
@@ -139,8 +135,8 @@ public class DatasourceConnector implements Connector {
 			final String command = script.toUpperCase().trim();
 			final Map<String, Object> result = new HashMap<String, Object>(2);
 			if (command.startsWith("SELECT")) {
-				data = database.select(script);
-				result.put("resultset", data);
+				resultSet = database.select(script);
+				result.put("resultset", resultSet);
 			} else {
 				database.executeCommand(script);
 			}
