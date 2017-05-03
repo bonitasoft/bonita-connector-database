@@ -18,7 +18,7 @@
 
     <dependencies>
         <dependency>
-            <artifactId>bonita-connector-database-mssqlserver2012-def</artifactId>
+            <artifactId>bonita-connector-database-mssqlserver2014-def</artifactId>
             <groupId>org.bonitasoft.connectors</groupId>
             <version>${definition.version}</version>
         </dependency>
