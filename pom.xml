@@ -50,6 +50,8 @@
 		<module>bonita-connector-database-sybase-impl</module>
 		<module>bonita-connector-database-teradata-def</module>
 		<module>bonita-connector-database-teradata-impl</module>
+		<module>bonita-connector-database-mssqlserver2014-def</module>
+		<module>bonita-connector-database-mssqlserver2014-impl</module>
 	</modules>
 
 	<build>
