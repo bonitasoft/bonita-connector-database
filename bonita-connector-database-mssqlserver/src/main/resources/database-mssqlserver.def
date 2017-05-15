@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definition:ConnectorDefinition xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <id>database-mssqlserver</id>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <icon>mssqlserver.png</icon>
 
     <category id="database" icon="database.png" />
