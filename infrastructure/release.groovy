@@ -1,13 +1,17 @@
 timestamps {
-    ansiColor('xterm') {
         node {
             stage('Setup') {
+                configGitCredentialHelper()
                 checkout scm
             }
 
             stage('Release version') {
-              sh './mvnw release:prepare -B -f bonita-connector-database-mssqlserver/pom.xml'
+                  withCredentials([usernamePassword(
+                            credentialsId: 'github',
+                            passwordVariable: 'GIT_PASSWORD',
+                            usernameVariable: 'GIT_USERNAME')]) {
+                       sh './mvnw release:prepare -B -f bonita-connector-database-mssqlserver/pom.xml'
+                  }
             }
         }
-    }
 }
