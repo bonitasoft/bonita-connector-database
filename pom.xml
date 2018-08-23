@@ -75,8 +75,8 @@
     </dependencies>
 
     <scm>
-        <developerConnection>scm:git:https://github.com/bonitasoft/bonita-connector-database.git</developerConnection>
-        <connection>scm:git:https://github.com/bonitasoft/bonita-connector-database.git</connection>
+        <developerConnection>scm:git:https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/bonitasoft/bonita-connector-database.git</developerConnection>
+        <connection>scm:git:https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/bonitasoft/bonita-connector-database.git</connection>
         <url>https://github.com/bonitasoft/bonita-connector-database</url>
     </scm>
 
