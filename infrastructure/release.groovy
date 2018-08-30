@@ -1,7 +1,6 @@
 timestamps {
         node {
             stage('Setup') {
-                configGitCredentialHelper()
                 checkout scm
             }
 
@@ -10,7 +9,7 @@ timestamps {
                             credentialsId: 'github',
                             passwordVariable: 'GIT_PASSWORD',
                             usernameVariable: 'GIT_USERNAME')]) {
-                       sh './mvnw release:prepare -B -f bonita-connector-database-mssqlserver/pom.xml'
+                       sh "./mvnw -B -f bonita-connector-database-mssqlserver/pom.xml release:prepare release:perform -Darguments=-DaltDeploymentRepository=${env.ALT_DEPLOYMENT_REPOSITORY_TAG}"
                   }
             }
         }
