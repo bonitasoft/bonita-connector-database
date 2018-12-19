@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition:ConnectorDefinition xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1"
+                                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<id>database-teradata</id>
+	<version>1.0.0</version>
+	<icon>teradata.png</icon>
+
+    <category id="others" parentCategoryId="database" icon="database.png" />
+	<category id="database" icon="database.png" />
+
+	<input name="driver" type="java.lang.String" defaultValue="com.teradata.jdbc.TeraDriver" mandatory="true" />
+	<input name="url" type="java.lang.String" defaultValue="jdbc:teradata://[HOSTNAME]/DATABASE=[DATABASE],PORT=[PORT]" mandatory="true"/>
+	<input name="script" type="java.lang.String" mandatory="true"/>
+	<input name="username" type="java.lang.String" />
+	<input name="password" type="java.lang.String" />
+     <input name="separator" type="java.lang.String" />
+    <input name="outputType" type="java.lang.String" />
+
+    <output name="resultset" type="java.sql.ResultSet" />
+	<output name="singleResult" type="java.lang.Object" />
+	<output name="oneRowNColResult" type="java.util.List" />
+	<output name="nRowOneColResult" type="java.util.List" />
+	<output name="tableResult" type="java.util.List" />
+
+	<page id="db">
+		<widget id="driver" inputName="driver" xsi:type="definition:Text" />
+		<widget id="url" inputName="url" xsi:type="definition:Text" />
+		<widget id="username" inputName="username" xsi:type="definition:Text" />
+		<widget id="password" inputName="password" xsi:type="definition:Password" />
+	</page>
+
+	<page id="qry">
+		<widget id="script" inputName="script" xsi:type="definition:TextArea" />
+        <widget id="separator" inputName="separator" xsi:type="definition:Text" />
+	</page>
+
+</definition:ConnectorDefinition>
