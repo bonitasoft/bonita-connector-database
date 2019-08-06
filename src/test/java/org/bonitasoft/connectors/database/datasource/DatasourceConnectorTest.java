@@ -41,13 +41,13 @@ import javax.sql.DataSource;
 
 import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
+import org.h2.jdbcx.JdbcDataSource;
+import org.hsqldb.jdbc.jdbcDataSource;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-
-import oracle.jdbc.pool.OracleDataSource;
 
 /**
  * @author Baptiste Mesta
@@ -108,25 +108,16 @@ public class DatasourceConnectorTest {
                 ((MysqlDataSource) ds).setPassword(prop.getProperty(db + "PASSWORD"));
                 break;
             case HSQL:
-                ds = new org.hsqldb.jdbc.jdbcDataSource();
-                ((org.hsqldb.jdbc.jdbcDataSource) ds).setDatabase(prop.getProperty(db + "JDBC_URL"));
-                ((org.hsqldb.jdbc.jdbcDataSource) ds).setUser(prop.getProperty(db + "USERNAME"));
-                ((org.hsqldb.jdbc.jdbcDataSource) ds).setPassword(prop.getProperty(db + "PASSWORD"));
+                ds = new jdbcDataSource();
+                ((jdbcDataSource) ds).setDatabase(prop.getProperty(db + "JDBC_URL"));
+                ((jdbcDataSource) ds).setUser(prop.getProperty(db + "USERNAME"));
+                ((jdbcDataSource) ds).setPassword(prop.getProperty(db + "PASSWORD"));
                 break;
             case H2:
-                ds = new org.h2.jdbcx.JdbcDataSource();
-                ((org.h2.jdbcx.JdbcDataSource) ds).setURL(prop.getProperty(db + "JDBC_URL"));
-                ((org.h2.jdbcx.JdbcDataSource) ds).setUser(prop.getProperty(db + "USERNAME"));
-                ((org.h2.jdbcx.JdbcDataSource) ds).setPassword(prop.getProperty(db + "PASSWORD"));
-                break;
-            case ORACLE:
-                ds = new OracleDataSource();
-                ((OracleDataSource) ds).setServerName(prop.getProperty(db + "SERVERNAME"));
-                ((OracleDataSource) ds).setPortNumber(Integer.parseInt(prop.getProperty(db + "PORT")));
-                ((OracleDataSource) ds).setDatabaseName(prop.getProperty(db + "DATABASENAME"));
-                ((OracleDataSource) ds).setUser(prop.getProperty(db + "USERNAME"));
-                ((OracleDataSource) ds).setPassword(prop.getProperty(db + "PASSWORD"));
-
+                ds = new JdbcDataSource();
+                ((JdbcDataSource) ds).setURL(prop.getProperty(db + "JDBC_URL"));
+                ((JdbcDataSource) ds).setUser(prop.getProperty(db + "USERNAME"));
+                ((JdbcDataSource) ds).setPassword(prop.getProperty(db + "PASSWORD"));
                 break;
             default:
                 throw new Exception("This type of database is not supported");
