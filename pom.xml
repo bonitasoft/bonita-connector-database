@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>bonita-connector-database</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2-SNAPSHOT</version>
 
     <properties>
         <bonita.engine.version>7.8.0</bonita.engine.version>
@@ -297,7 +297,7 @@
         <developerConnection>scm:git:https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/bonitasoft/bonita-connector-database.git</developerConnection>
         <connection>scm:git:https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/bonitasoft/bonita-connector-database.git</connection>
         <url>https://github.com/bonitasoft/bonita-connector-database</url>
-      <tag>2.0.1</tag>
+      <tag>HEAD</tag>
   </scm>
 
 </project>
