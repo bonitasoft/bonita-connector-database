@@ -14,7 +14,6 @@
  */
 package org.bonitasoft.connectors.database.datasource;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +47,6 @@ public class DatasourceConnector implements Connector {
 	private String separator;
 	private Properties properties;
 	private Database database;
-	private ResultSet resultSet;
 
 
 	@Override
@@ -114,14 +112,6 @@ public class DatasourceConnector implements Connector {
 
 	@Override
 	public void disconnect() throws ConnectorException {
-		if (resultSet != null) {
-			try {
-				resultSet.close();
-			} catch (Exception e) {
-				throw new ConnectorException(e);
-			}
-		}
-
 		if (database != null) {
 			try {
 				database.disconnect();
@@ -136,8 +126,7 @@ public class DatasourceConnector implements Connector {
 			final String command = script.toUpperCase().trim();
             final Map<String, Object> result = new HashMap<>(2);
 			if (command.startsWith("SELECT")) {
-				resultSet = database.select(script);
-				result.put("resultset", resultSet);
+				result.put("resultset", database.select(script));
 			} else {
 				database.executeCommand(script);
 			}

@@ -40,6 +40,8 @@ public class Database {
 
     private Context ctx;
 
+	private Statement selectStatement;
+
     public Database(final String driver, final String url, final String username, final String password)
             throws ClassNotFoundException, SQLException {
         Class.forName(driver);
@@ -53,6 +55,10 @@ public class Database {
     }
 
     public void disconnect() throws SQLException, NamingException {
+    	if(selectStatement != null) {
+    		selectStatement.close();
+    		selectStatement = null;
+    	}
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
@@ -61,15 +67,18 @@ public class Database {
         }
     }
 
-    public ResultSet select(final String query) throws SQLException {
-        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+    public ResultSet select(final String query) throws ConnectorException, SQLException {
+    	if(selectStatement != null) {
+    		throw new ConnectorException("A Statement is already opened.");
+    	}
+        selectStatement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
-        return statement.executeQuery(query);
+        return selectStatement.executeQuery(query);
     }
 
     public boolean executeCommand(final String command) throws SQLException, ConnectorException {
         Statement statement = null;
-        boolean isExecuted = false;
+    	boolean isExecuted = false;
         try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             isExecuted = statement.execute(command);
@@ -83,6 +92,13 @@ public class Database {
         return isExecuted;
     }
 
+    /**
+     * Does not produce an output result. A Statement is created, executed and closed.
+     * @param commands, the list of SQL command to execute
+     * @param commit , commit after the batch execution
+     * @throws SQLException
+     * @throws ConnectorException
+     */
     public void executeBatch(final List<String> commands, final boolean commit) throws SQLException, ConnectorException {
         Statement statement = null;
         try {
