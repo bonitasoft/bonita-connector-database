@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+	<definitionId>${as400.def.id}</definitionId>
+	<definitionVersion>${as400.def.version}</definitionVersion>
+    <description>As400 implementation</description>
+	<implementationClassname>${jdbc-generic.main-class}</implementationClassname>
+	<implementationId>${as400.impl.id}</implementationId>
+	<implementationVersion>${as400.impl.version}</implementationVersion>
+
+<!-- retrieved from the pom.xml at build time -->
+${connector-dependencies}
+	
+</implementation:connectorImplementation>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+	<definitionId>${mysql.def.id}</definitionId>
+	<definitionVersion>${mysql.def.version}</definitionVersion>
+    <description>MySql implementation</description>
+	<implementationClassname>${jdbc-generic.main-class}</implementationClassname>
+	<implementationId>${mysql.impl.id}</implementationId>
+	<implementationVersion>${mysql.impl.version}</implementationVersion>
+
+<!-- retrieved from the pom.xml at build time -->
+${connector-dependencies}
+	
+</implementation:connectorImplementation>

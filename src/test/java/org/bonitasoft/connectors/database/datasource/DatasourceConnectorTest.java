@@ -14,15 +14,16 @@
  */
 package org.bonitasoft.connectors.database.datasource;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
+
+
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -43,9 +44,9 @@ import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
 import org.h2.jdbcx.JdbcDataSource;
 import org.hsqldb.jdbc.jdbcDataSource;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
@@ -53,7 +54,7 @@ import com.mysql.cj.jdbc.MysqlDataSource;
  * @author Baptiste Mesta
  * @author Frédéric Bouquet
  */
-public class DatasourceConnectorTest {
+class DatasourceConnectorTest {
 
     public static final String DATASOURCE = "java:/comp/env/jdbc/bonita";
 
@@ -65,8 +66,8 @@ public class DatasourceConnectorTest {
 
     private String db;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         final Properties p = new Properties();
         p.put(Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");
         p.put(Context.URL_PKG_PREFIXES, "org.apache.naming");
@@ -83,8 +84,8 @@ public class DatasourceConnectorTest {
         insertValues();
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    void tearDown() throws Exception {
         dropTable();
         ic.unbind("java:/comp/env/jdbc/bonita");
         ic.destroySubcontext("java:");
@@ -126,7 +127,7 @@ public class DatasourceConnectorTest {
     }
 
     @Test
-    public void testGetAllValues() throws Exception {
+    void testGetAllValues() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithNoParameter();
         final List<List<Object>> rowSet = executeAndGetResult(datasourceConnector);
         assertEquals(1, rowSet.get(0).get(0));
@@ -142,7 +143,7 @@ public class DatasourceConnectorTest {
     }
 
     @Test
-    public void testValidateInputWithNullParameters() {
+   void testValidateInputWithNullParameters() {
         Map<String, Object> parameters = new HashMap<String, Object>();
         DatasourceConnector datasourceConnector = new DatasourceConnector();
         datasourceConnector.setInputParameters(parameters);
@@ -150,21 +151,21 @@ public class DatasourceConnectorTest {
             datasourceConnector.validateInputParameters();
             fail("Connector validation should be failing");
         } catch (ConnectorValidationException e) {
-            assertThat(e.getMessage(), containsString("Datasource"));
-            assertThat(e.getMessage(), not(containsString("Properties")));
-            assertThat(e.getMessage(), containsString("Script"));
+            assertThat(e.getMessage()).contains("Datasource");
+            assertThat(e.getMessage()).doesNotContain("Properties");
+            assertThat(e.getMessage()).contains("Script");
         }
     }
 
     @Test
-    public void testValidateInputWithGoodParameters() throws ConnectorValidationException {
+    void testValidateInputWithGoodParameters() throws ConnectorValidationException {
         DatasourceConnector datasourceConnector =
                 getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT, (Object) getFirstInsertQuery()));
         datasourceConnector.validateInputParameters();
     }
 
     @Test
-    public void testValidateInputWithEmptyParameters() {
+    void testValidateInputWithEmptyParameters() {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put(DatasourceConnector.DATASOURCE_INPUT, "");
         parameters.put(DatasourceConnector.PROPERTIES_INPUT, new ArrayList<Object>());
@@ -175,14 +176,14 @@ public class DatasourceConnectorTest {
             datasourceConnector.validateInputParameters();
             fail("Connector validation should be failing");
         } catch (ConnectorValidationException e) {
-            assertThat(e.getMessage(), containsString("Datasource"));
-            assertThat(e.getMessage(), not(containsString("Properties")));
-            assertThat(e.getMessage(), containsString("Script"));
+            assertThat(e.getMessage()).contains("Datasource");
+            assertThat(e.getMessage()).doesNotContain("Properties");
+            assertThat(e.getMessage()).contains("Script");
         }
     }
 
     @Test
-    public void testGetFirstNames() throws Exception {
+    void testGetFirstNames() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithNoParameter();
         final List<List<Object>> rowSet = executeAndGetResult(datasourceConnector);
         final Object johnName = rowSet.get(0).get(1);
@@ -192,7 +193,7 @@ public class DatasourceConnectorTest {
     }
 
     @Test
-    public void testInsertOneLine() throws Exception {
+    void testInsertOneLine() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT,
                 (Object) getThirdInsertQuery()));
         datasourceConnector.connect();
@@ -212,19 +213,19 @@ public class DatasourceConnectorTest {
     }
 
     @Test
-    public void testManipulateResultSet() throws Exception {
+    void testManipulateResultSet() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT,
                 (Object) getSelectAllQuery()));
         datasourceConnector.connect();
         final Map<String, Object> execute = datasourceConnector.execute();
         ResultSet resultSet = (ResultSet) execute.get("resultset");
         assertNotNull(resultSet);
-        assertThat(resultSet.getFetchSize(), is(1));
+        assertThat(resultSet.getFetchSize()).isEqualTo(1);
         datasourceConnector.disconnect();
     }
 
     @Test
-    public void testGetOneLine() throws Exception {
+    void testGetOneLine() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT,
                 (Object) getSelectLine("John")));
         final List<List<Object>> rowSet = executeAndGetResult(datasourceConnector);
@@ -241,7 +242,7 @@ public class DatasourceConnectorTest {
     }
 
     @Test
-    public void testGetOneField() throws Exception {
+    void testGetOneField() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT,
                 (Object) getFirstNames()));
         final List<List<Object>> rowSet = executeAndGetResult(datasourceConnector);
@@ -254,18 +255,18 @@ public class DatasourceConnectorTest {
     }
 
     @Test
-    public void testGetOneFieldofOneLine() throws Exception {
+    void testGetOneFieldofOneLine() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT,
                 (Object) getAgeOf("John")));
         final List<List<Object>> rowSet = executeAndGetResult(datasourceConnector);
         assertEquals(1, rowSet.size());
         assertEquals(1, rowSet.get(0).size());
 
-        assertThat((Integer) rowSet.get(0).get(0), is(27));
+        assertThat((Integer) rowSet.get(0).get(0)).isEqualTo(27);
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    void testUpdate() throws Exception {
         DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT,
                 (Object) getUpdateAgeOf("John", "44")));
         datasourceConnector.connect();
@@ -277,11 +278,11 @@ public class DatasourceConnectorTest {
         assertEquals(1, rowSet.size());
         assertEquals(1, rowSet.get(0).size());
 
-        assertThat((Integer) rowSet.get(0).get(0), is(44));
+        assertThat((Integer) rowSet.get(0).get(0)).isEqualTo(44);
     }
 
     @Test
-    public void testDeleteOneLine() throws Exception {
+    void testDeleteOneLine() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT,
                 (Object) getDeleteFirstInsert()));
         datasourceConnector.connect();
@@ -296,7 +297,7 @@ public class DatasourceConnectorTest {
     }
 
     @Test
-    public void testDeleteMultiLine() throws Exception {
+    void testDeleteMultiLine() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT,
                 (Object) getMultipleDeleteQuery()));
         datasourceConnector.connect();
@@ -309,30 +310,30 @@ public class DatasourceConnectorTest {
     }
 
     @Test
-    public void testGetInBoundIndexes() throws Exception {
+    void testGetInBoundIndexes() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithNoParameter();
         final List<List<Object>> rowSet = executeAndGetResult(datasourceConnector);
         assertTrue(rowSet.get(0).size() >= 4);
     }
 
     @Test
-    public void testInvalidColumnName() throws Exception {
+    void testInvalidColumnName() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithNoParameter();
         final List<String> columns = executeAndGetColumns(datasourceConnector);
         assertFalse("state is not a valid column name", columns.contains("state"));
     }
 
-    @Test(expected = ConnectorException.class)
-    public void testWrongTableQuery() throws Throwable {
+    @Test
+    void testWrongTableQuery() throws Throwable {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT,
                 (Object) "SELECT * FROM Bonita"));
         datasourceConnector.connect();
-        datasourceConnector.execute();
-        datasourceConnector.disconnect();
+        
+        assertThrows(ConnectorException.class,() -> datasourceConnector.execute());
     }
 
     @Test
-    public void testWrongPersonIdQuery() throws Exception {
+    void testWrongPersonIdQuery() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT,
                 (Object) getInvalidSelectUserId()));
         final List<List<Object>> rowSet = executeAndGetResult(datasourceConnector);
@@ -340,7 +341,7 @@ public class DatasourceConnectorTest {
     }
 
     @Test
-    public void testCreateSelectAndDropTable() throws Exception {
+     void testCreateSelectAndDropTable() throws Exception {
         DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(Collections.singletonMap(DatasourceConnector.SCRIPT_INPUT,
                 (Object) getSelectAllQuery()));
         List<List<Object>> rowSet = executeAndGetResult(datasourceConnector);
@@ -365,8 +366,7 @@ public class DatasourceConnectorTest {
     }
 
     @Test
-    public void executeBatchScript() throws Exception {
-
+    void executeBatchScript() throws Exception {
         final String script = getBatchScript(";");
 
         final Map<String, Object> parameters = new HashMap<String, Object>(6);
@@ -374,9 +374,9 @@ public class DatasourceConnectorTest {
         parameters.put(DatasourceConnector.SEPARATOR_INPUT, ";");
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithParameters(parameters);
         datasourceConnector.connect();
-        datasourceConnector.execute();
+        final Map<String, Object> output = datasourceConnector.execute();
         datasourceConnector.disconnect();
-
+        assertThat(output).isNull();
     }
 
     private void createTable() throws Exception {

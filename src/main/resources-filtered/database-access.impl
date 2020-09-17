@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+	<definitionId>${access.def.id}</definitionId>
+	<definitionVersion>${access.def.version}</definitionVersion>
+    <description>Access implementation</description>
+	<implementationClassname>${jdbc-generic.main-class}</implementationClassname>
+	<implementationId>${access.impl.id}</implementationId>
+	<implementationVersion>${access.impl.version}</implementationVersion>
+
+<!-- retrieved from the pom.xml at build time -->
+${connector-dependencies}
+	
+</implementation:connectorImplementation>

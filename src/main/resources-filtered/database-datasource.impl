@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+	
+	<definitionId>${datasource.def.id}</definitionId>
+	<definitionVersion>${datasource.def.version}</definitionVersion>
+    <description>Based on JDBC 4</description>
+	<implementationClassname>${datasource.main-class}</implementationClassname>
+	<implementationId>${datasource.impl.id}</implementationId>
+	<implementationVersion>${datasource.impl.version}/implementationVersion>
+	
+<!-- retrieved from the pom.xml at build time -->
+${connector-dependencies}
+
+</implementation:connectorImplementation>
