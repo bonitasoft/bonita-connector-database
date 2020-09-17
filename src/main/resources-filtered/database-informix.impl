@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+	<definitionId>${informix.def.id}</definitionId>
+	<definitionVersion>${informix.def.version}</definitionVersion>
+    <description>Informix implementation</description>
+	<implementationClassname>${jdbc-generic.main-class}</implementationClassname>
+	<implementationId>${informix.impl.id}</implementationId>
+	<implementationVersion>${informix.impl.version}</implementationVersion>
+
+<!-- retrieved from the pom.xml at build time -->
+${connector-dependencies}
+	
+</implementation:connectorImplementation>

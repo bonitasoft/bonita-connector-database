@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+	<definitionId>${h2.def.id}</definitionId>
+	<definitionVersion>${h2.def.version}</definitionVersion>
+    <description>H2 implementation</description>
+	<implementationClassname>${jdbc-generic.main-class}</implementationClassname>
+	<implementationId>${h2.impl.id}</implementationId>
+	<implementationVersion>${h2.impl.version}</implementationVersion>
+
+<!-- retrieved from the pom.xml at build time -->
+${connector-dependencies}
+	
+</implementation:connectorImplementation>

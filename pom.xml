@@ -1,297 +1,424 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <artifactId>bonita-connectors</artifactId>
-        <groupId>org.bonitasoft.connectors</groupId>
-        <version>1.0.0</version>
-    </parent>
-
+    <groupId>org.bonitasoft.connectors</groupId>
     <artifactId>bonita-connector-database</artifactId>
     <version>2.0.2-SNAPSHOT</version>
 
+    <name>Database Connector</name>
+	<description>Database connector for Bonita</description>
+	<url>https://www.bonitasoft.com</url>
+
+	<developers>
+		<developer>
+			<id>bonitasoft</id>
+			<name>Bonitasoft</name>
+			<email>rd.user@bonitasoft.com</email>
+			<organization>Bonitasoft</organization>
+			<organizationUrl>https://www.bonitasoft.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>GPL-v2.0</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+		</license>
+	</licenses>
+
     <properties>
+    	<!-- Maven -->
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.build.timestamp.format>yyyy.MM.dd-hh.mm</maven.build.timestamp.format>
+		
+		<!-- Bonita -->
         <bonita.engine.version>7.8.0</bonita.engine.version>
+        
+        <!--Connector -->
+        <jdbc-generic.def.id>database-jdbc</jdbc-generic.def.id>
+        <jdbc-generic.def.version>1.0.0</jdbc-generic.def.version>
+        <jdbc-generic.impl.id>${jdbc-generic.def.id}-impl</jdbc-generic.impl.id>
+        <jdbc-generic.impl.version>${project.version}</jdbc-generic.impl.version>
+        <jdbc-generic.main-class>org.bonitasoft.connectors.database.jdbc.JdbcConnector</jdbc-generic.main-class>
+        		
+		<access.def.id>database-access</access.def.id>
+		<access.def.version>${jdbc-generic.def.version}</access.def.version>
+		<access.impl.id>${access.def.id}-impl</access.impl.id>
+        <access.impl.version>${project.version}</access.impl.version>
+        
+        <as400.def.id>database-as400</as400.def.id>
+		<as400.def.version>${jdbc-generic.def.version}</as400.def.version>
+		<as400.impl.id>${as400.def.id}-impl</as400.impl.id>
+        <as400.impl.version>${project.version}</as400.impl.version>
+        
+        <datasource.def.id>database-datasource</datasource.def.id>
+		<datasource.def.version>1.0.0</datasource.def.version>
+		<datasource.impl.id>${datasource.def.id}-impl</datasource.impl.id>
+        <datasource.impl.version>${project.version}</datasource.impl.version>
+        <datasource.main-class>org.bonitasoft.connectors.database.datasource.DatasourceConnector</datasource.main-class>
+        
+        <db2.def.id>database-db2</db2.def.id>
+		<db2.def.version>${jdbc-generic.def.version}</db2.def.version>
+		<db2.impl.id>${db2.def.id}-impl</db2.impl.id>
+        <db2.impl.version>${project.version}</db2.impl.version>
+        
+        <h2.def.id>database-h2</h2.def.id>
+		<h2.def.version>${jdbc-generic.def.version}</h2.def.version>
+		<h2.impl.id>${h2.def.id}-impl</h2.impl.id>
+        <h2.impl.version>${project.version}</h2.impl.version>
+        
+        <hsqldb.def.id>database-hsqldb</hsqldb.def.id>
+		<hsqldb.def.version>${jdbc-generic.def.version}</hsqldb.def.version>
+		<hsqldb.impl.id>${hsqldb.def.id}-impl</hsqldb.impl.id>
+        <hsqldb.impl.version>${project.version}</hsqldb.impl.version>
+        
+        <informix.def.id>database-informix</informix.def.id>
+		<informix.def.version>${jdbc-generic.def.version}</informix.def.version>
+		<informix.impl.id>${informix.def.id}-impl</informix.impl.id>
+        <informix.impl.version>${project.version}</informix.impl.version>
+        
+        <ingres.def.id>database-ingres</ingres.def.id>
+		<ingres.def.version>${jdbc-generic.def.version}</ingres.def.version>
+		<ingres.impl.id>${ingres.def.id}-impl</ingres.impl.id>
+        <ingres.impl.version>${project.version}</ingres.impl.version>
+        
+        <mssqlserver.def.id>database-mssqlserver</mssqlserver.def.id>
+		<mssqlserver.def.version>1.2.1</mssqlserver.def.version>
+		<mssqlserver.impl.id>${mssqlserver.def.id}-impl</mssqlserver.impl.id>
+        <mssqlserver.impl.version>${project.version}</mssqlserver.impl.version>
+        
+        <mysql.def.id>database-mysql</mysql.def.id>
+		<mysql.def.version>${jdbc-generic.def.version}</mysql.def.version>
+		<mysql.impl.id>${mysql.def.id}-impl</mysql.impl.id>
+        <mysql.impl.version>${project.version}</mysql.impl.version>
+        
+        <oracle10g.def.id>database-oracle10g</oracle10g.def.id>
+		<oracle10g.def.version>${jdbc-generic.def.version}</oracle10g.def.version>
+		<oracle10g.impl.id>${oracle10g.def.id}-impl</oracle10g.impl.id>
+        <oracle10g.impl.version>${project.version}</oracle10g.impl.version>
+        
+        <oracle11g.def.id>database-oracle11g</oracle11g.def.id>
+		<oracle11g.def.version>${jdbc-generic.def.version}</oracle11g.def.version>
+		<oracle11g.impl.id>${oracle11g.def.id}-impl</oracle11g.impl.id>
+        <oracle11g.impl.version>${project.version}</oracle11g.impl.version>
+        
+        <postgresql84.def.id>database-postgresql84</postgresql84.def.id>
+		<postgresql84.def.version>${jdbc-generic.def.version}</postgresql84.def.version>
+		<postgresql84.impl.id>${postgresql84.def.id}-impl</postgresql84.impl.id>
+        <postgresql84.impl.version>${project.version}</postgresql84.impl.version>
+        
+        <postgresql92.def.id>database-postgresql92</postgresql92.def.id>
+		<postgresql92.def.version>${jdbc-generic.def.version}</postgresql92.def.version>
+		<postgresql92.impl.id>${postgresql92.def.id}-impl</postgresql92.impl.id>
+        <postgresql92.impl.version>${project.version}</postgresql92.impl.version>
+        
+        <sysbase.def.id>database-sysbase</sysbase.def.id>
+		<sysbase.def.version>${jdbc-generic.def.version}</sysbase.def.version>
+		<sysbase.impl.id>${sysbase.def.id}-impl</sysbase.impl.id>
+        <sysbase.impl.version>${project.version}</sysbase.impl.version>
+        
+        <teradata.def.id>database-teradata</teradata.def.id>
+		<teradata.def.version>${jdbc-generic.def.version}</teradata.def.version>
+		<teradata.impl.id>${teradata.def.id}-impl</teradata.impl.id>
+        <teradata.impl.version>${project.version}</teradata.impl.version>
+        
+        <!-- Test -->
+		<junit-jupiter-engine.version>5.6.2</junit-jupiter-engine.version>
+		<junit-platform-runner.version>1.6.2</junit-platform-runner.version>
+		<wiremock.version>2.26.3</wiremock.version>
+		<assertj-core.version>3.16.1</assertj-core.version>
+		<jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+		<sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+		<hsqldb.version>1.8.0.7</hsqldb.version>
+		<mysql-connector-java.version>8.0.16</mysql-connector-java.version>
+		<h2.version>1.3.168</h2.version>
+		<catalina.version>6.0.14</catalina.version>
+		
+		<!-- Maven plugins -->
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
+		<groovy-maven-plugin.version>2.1.1</groovy-maven-plugin.version>
+		<groovy-all.version>2.4.16</groovy-all.version>
+		<maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+		<maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+
+		<!-- Sonar -->
+		<sonar.projectKey>bonitasoft_bonita-connector-database</sonar.projectKey>
+		<sonar.organization>bonitasoft</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <dependencies>
         <dependency>
-            <!-- Latest Version of Bonita released, against which the initial development has been done. -->
-            <!-- The connector will be tested against more recent version -->
             <artifactId>bonita-common</artifactId>
             <groupId>org.bonitasoft.engine</groupId>
             <version>${bonita.engine.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <artifactId>junit</artifactId>
-            <groupId>junit</groupId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
+       
+       <!-- Tests -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit-jupiter-engine.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-runner</artifactId>
+			<version>${junit-platform-runner.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${assertj-core.version}</version>
+			<scope>test</scope>
+		</dependency>
         <dependency>
             <groupId>hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>1.8.0.7</version>
+            <version>${hsqldb.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.16</version>
+            <version>${mysql-connector-java.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.3.168</version>
+            <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>catalina</artifactId>
-            <version>6.0.14</version>
+            <version>${catalina.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
-                    <configuration>
-                        <tagNameFormat>@{project.version}</tagNameFormat>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>2.5</version>
-                    <executions>
-                        <execution>
-                            <id>assemble</id>
-                            <phase>none</phase>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+	<build>
+		<defaultGoal>verify</defaultGoal>
+		<resources>
+			<resource>
+				<directory>src/main/resources-filtered</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${maven-assembly-plugin.version}</version>
+					<configuration>
+						<descriptorSourceDirectory>${project.basedir}/src/assembly</descriptorSourceDirectory>
+					</configuration>
+					<executions>
+						<execution>
+							<id>package-connectors</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+							<configuration>
+								<appendAssemblyId>true</appendAssemblyId>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.gmaven</groupId>
+					<artifactId>groovy-maven-plugin</artifactId>
+					<version>${groovy-maven-plugin.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.codehaus.groovy</groupId>
+							<artifactId>groovy-all</artifactId>
+							<version>${groovy-all.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+					<configuration>
+						<enableAssertions>true</enableAssertions>
+						<forkCount>1</forkCount>
+						<reuseForks>true</reuseForks>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.junit.platform</groupId>
+							<artifactId>junit-platform-runner</artifactId>
+							<version>${junit-platform-runner.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco-maven-plugin.version}</version>
+					<configuration>
+						<append>true</append>
+					</configuration>
+					<executions>
+						<execution>
+							<id>prepare-agent</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>prepare-agent-integration</id>
+							<goals>
+								<goal>prepare-agent-integration</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>jacoco-site</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${sonar-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.sonatype.plugins</groupId>
+					<artifactId>nexus-staging-maven-plugin</artifactId>
+					<version>${nexus-staging-maven-plugin.version}</version>
+					<extensions>true</extensions>
+					<configuration>
+						<serverId>ossrh</serverId>
+						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+						<autoReleaseAfterClose>false</autoReleaseAfterClose>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>all</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>all</classifier>
-                            <descriptor>${basedir}/connector-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>generic-jdbc</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/generic-jdbc-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>postgres92</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/postgres92-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>postgres84</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/postgres84-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>mysql</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/mysql-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>oracle10g</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/oracle10g-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>oracle11g</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/oracle11g-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>h2</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/h2-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>access</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/access-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>as400</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/as400-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                     <execution>
-                        <id>datasource</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/datasource-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>db2</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/db2-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                     <execution>
-                        <id>hsqldb</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/hsqldb-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>informix</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/informix-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                     <execution>
-                        <id>ingres</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/ingres-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>mssqlserver</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/mssqlserver-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>sybase</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/sybase-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>teradata</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>${basedir}/teradata-assembly.xml</descriptor>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.gmaven</groupId>
+				<artifactId>groovy-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<source>${project.basedir}/src/script/dependencies-as-var.groovy</source>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven-javadoc-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<!-- Deployment profile (required so these plugins are only used when deploying) -->
+		<profile>
+			<id>deploy</id>
+			<build>
+				<plugins>
+					<!-- GPG plugin -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<configuration>
+									<!-- Prevent `gpg` from using pinentry programs -->
+									<gpgArguments>
+										<arg>--pinentry-mode</arg>
+										<arg>loopback</arg>
+									</gpgArguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<distributionManagement>
+		<!-- Central Repository -->
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 
     <scm>
         <developerConnection>scm:git:https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/bonitasoft/bonita-connector-database.git</developerConnection>

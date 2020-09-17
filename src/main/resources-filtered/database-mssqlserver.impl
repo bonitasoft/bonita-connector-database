@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0">
+    <definitionId>${mssqlserver.def.id}</definitionId>
+    <definitionVersion>${mssqlserver.def.version}</definitionVersion>
+    <description>MsSQLServer implementation</description>
+    <implementationClassname>${jdbc-generic.main-class}</implementationClassname>
+    <implementationId>${mssqlserver.impl.id}</implementationId>
+    <implementationVersion>${mssqlserver.impl.version}</implementationVersion>
+
+<!-- retrieved from the pom.xml at build time -->
+${connector-dependencies}
+
+</implementation:connectorImplementation>

@@ -1,16 +1,10 @@
 package org.bonitasoft.connectors.database.jdbc;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -25,15 +19,15 @@ import java.util.Properties;
 
 import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Baptiste Mesta
  * @author Frédéric Bouquet
  */
-public class JdbcConnectorTest {
+class JdbcConnectorTest {
 
     public static String PASSWORD;
 
@@ -49,15 +43,15 @@ public class JdbcConnectorTest {
 
     private String tableName;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         getProperties();
         createTable();
         insertValues();
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    void tearDown() throws Exception {
         dropTable();
     }
 
@@ -73,7 +67,7 @@ public class JdbcConnectorTest {
     }
 
     @Test
-    public void testValidateInputParametersWithNullValues() {
+    void testValidateInputParametersWithNullValues() {
         Map<String, Object> parameters = new HashMap<String, Object>();
         JdbcConnector jdbcConnector = new JdbcConnector();
         jdbcConnector.setInputParameters(parameters);
@@ -81,14 +75,14 @@ public class JdbcConnectorTest {
             jdbcConnector.validateInputParameters();
             fail("Connector validation should be failing");
         } catch (ConnectorValidationException e) {
-            assertThat(e.getMessage(), containsString("Driver"));
-            assertThat(e.getMessage(), containsString("Url"));
-            assertThat(e.getMessage(), containsString("Script"));
+            assertThat(e.getMessage()).contains("Driver");
+            assertThat(e.getMessage()).contains("Url");
+            assertThat(e.getMessage()).contains("Script");
         }
     }
 
     @Test
-    public void testValidateInputParametersWithEmptyValues() {
+    void testValidateInputParametersWithEmptyValues() {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put(JdbcConnector.DRIVER, "");
         parameters.put(JdbcConnector.URL, "");
@@ -99,20 +93,20 @@ public class JdbcConnectorTest {
             jdbcConnector.validateInputParameters();
             fail("Connector validation should be failing");
         } catch (ConnectorValidationException e) {
-            assertThat(e.getMessage(), containsString("Driver"));
-            assertThat(e.getMessage(), containsString("Url"));
-            assertThat(e.getMessage(), containsString("Script"));
+            assertThat(e.getMessage()).contains("Driver");
+            assertThat(e.getMessage()).contains("Url");
+            assertThat(e.getMessage()).contains("Script");
         }
     }
 
     @Test
-    public void testValidateInputParameters() throws ConnectorValidationException {
+    void testValidateInputParameters() throws ConnectorValidationException {
         JdbcConnector jdbcConnector = getJdbcConnectorWithNoParameter();
         jdbcConnector.validateInputParameters();
     }
 
     @Test
-    public void testGetAllValues() throws Exception {
+    void testGetAllValues() throws Exception {
         final JdbcConnector jdbcConnector = getJdbcConnectorWithNoParameter();
         final List<List<Object>> rowSet = executeAndGetResult(jdbcConnector);
         assertEquals(1, rowSet.get(0).get(0));
@@ -128,7 +122,7 @@ public class JdbcConnectorTest {
     }
 
     @Test
-    public void testGetFirstNames() throws Exception {
+    void testGetFirstNames() throws Exception {
         final JdbcConnector jdbcConnector = getJdbcConnectorWithNoParameter();
         final List<List<Object>> rowSet = executeAndGetResult(jdbcConnector);
         final Object johnName = rowSet.get(0).get(1);
@@ -138,7 +132,7 @@ public class JdbcConnectorTest {
     }
 
     @Test
-    public void testGetInBoundIndexes() throws Exception {
+    void testGetInBoundIndexes() throws Exception {
         final JdbcConnector jdbcConnector = getJdbcConnectorWithNoParameter();
         final List<List<Object>> rowSet = executeAndGetResult(jdbcConnector);
         final Object johnName = rowSet.get(0).get(1);
@@ -148,35 +142,37 @@ public class JdbcConnectorTest {
     }
 
     @Test
-    public void testManipulateResultSet() throws Exception {
-        final JdbcConnector datasourceConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT,
-                (Object) getSelectAllQuery()));
+    void testManipulateResultSet() throws Exception {
+        final JdbcConnector datasourceConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getSelectAllQuery()));
         datasourceConnector.connect();
         final Map<String, Object> execute = datasourceConnector.execute();
         ResultSet resultSet = (ResultSet) execute.get("resultset");
         assertNotNull(resultSet);
-        assertThat(resultSet.getFetchSize(), is(1));
+        assertThat(resultSet.getFetchSize()).isEqualTo(1);
         datasourceConnector.disconnect();
     }
 
-    @Test(expected = ConnectorException.class)
-    public void testWrongTableQuery() throws Throwable {
-        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, (Object) "SELECT * FROM Bonita"));
+    @Test
+    void testWrongTableQuery() throws Throwable {
+        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, (Object) "SELECT * FROM Bonita"));
         jdbcConnector.connect();
-        jdbcConnector.execute();
-        jdbcConnector.disconnect();
+        assertThrows(ConnectorException.class, () -> jdbcConnector.execute());
     }
 
     @Test
-    public void testWrongPersonIdQuery() throws Exception {
-        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getInvalidSelectUserId()));
+    void testWrongPersonIdQuery() throws Exception {
+        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getInvalidSelectUserId()));
         final List<List<Object>> rowSet = executeAndGetResult(jdbcConnector);
-        assertTrue(rowSet.isEmpty());
+        assertThat(rowSet).isEmpty();
     }
 
     @Test
-    public void testCreateSelectAndDropTable() throws Exception {
-        JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getSelectAllQuery()));
+    void testCreateSelectAndDropTable() throws Exception {
+        JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getSelectAllQuery()));
         List<List<Object>> rowSet = executeAndGetResult(jdbcConnector);
         List<Object> actual = rowSet.get(1);
         final List<Object> expected = Arrays.asList(new Object[] { 2, "Jane", "Doe", 31, 15.9 });
@@ -185,12 +181,14 @@ public class JdbcConnectorTest {
         assertEquals("Jane", rowSet.get(1).get(1));
         assertEquals(expected, actual);
 
-        jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getDeleteFirstInsert()));
+        jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getDeleteFirstInsert()));
         jdbcConnector.connect();
         jdbcConnector.execute();
         jdbcConnector.disconnect();
 
-        jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getSelectAllQuery()));
+        jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getSelectAllQuery()));
         rowSet = executeAndGetResult(jdbcConnector);
         actual = rowSet.get(0);
         assertEquals(1, rowSet.size());
@@ -199,86 +197,94 @@ public class JdbcConnectorTest {
     }
 
     @Test
-    public void testQueryShouldNotGetBackUnNeededColumn() throws Exception {
-        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getFirstnameLastnameQuery()));
+    void testQueryShouldNotGetBackUnNeededColumn() throws Exception {
+        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getFirstnameLastnameQuery()));
         final List<String> headers = executeAndGetColumns(jdbcConnector);
         final List<String> upperCaseHeaders = new ArrayList<String>(headers.size());
         for (final String header : headers) {
             upperCaseHeaders.add(header.toUpperCase());
         }
-        assumeThat(upperCaseHeaders, hasItems("FIRSTNAME", "LASTNAME"));
-        assertThat(upperCaseHeaders, not(hasItems("ID")));
+        assertThat(upperCaseHeaders).contains("FIRSTNAME", "LASTNAME").doesNotContain("ID");
     }
 
     @Test
-    public void executeInsertOneLine() throws Exception {
-        final List<List<Object>> result = queryAndCheck(insertBuilder("(firstname, age, lastname, average)", "('Arthur', 25, 'Doe', 17)"),
+    void executeInsertOneLine() throws Exception {
+        final List<List<Object>> result = queryAndCheck(
+                insertBuilder("(firstname, age, lastname, average)", "('Arthur', 25, 'Doe', 17)"),
                 selectBuilder("*", "firstname='Arthur'", "id"));
-        assertThat(result.size(), equalTo(1));
-        assertThat(result.get(0), hasItems((Object) "Arthur", 25));
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0)).contains("Arthur", 25);
     }
 
     @Test
-    public void executeInsertMultiLine() throws Exception {
+    void executeInsertMultiLine() throws Exception {
         List<List<Object>> result;
         if (db.contains("hsql")) {
             System.out.println("Multi-insertion is not possible with hsql version older than 2.0");
             return;
         } else {
-            result = queryAndCheck(insertBuilder("(firstname, age, lastname, average)", "('Elias', 25, 'Doe', 17), ('Fred', 28, 'Da', 18)"),
+            result = queryAndCheck(
+                    insertBuilder("(firstname, age, lastname, average)",
+                            "('Elias', 25, 'Doe', 17), ('Fred', 28, 'Da', 18)"),
                     selectBuilder("*", "firstname='Elias' or firstname='Fred'", "firstname"));
         }
-        assertThat(result.size(), equalTo(2));
-        assertThat(result.get(0), hasItems((Object) "Elias", 25));
-        assertThat(result.get(1), hasItems((Object) "Fred", 28));
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0)).contains("Elias", 25);
+        assertThat(result.get(1)).contains("Fred", 28);
 
     }
 
     @Test
-    public void executeUpdateOneLine() throws Exception {
-        final List<List<Object>> result = queryAndCheck(updateBuilder("age=25", "firstname='John'"), selectBuilder("*", "firstname='John'", "id"));
-        assertThat(result.size(), equalTo(1));
-        assertThat(result.get(0), hasItems((Object) "John", 25));
+    void executeUpdateOneLine() throws Exception {
+        final List<List<Object>> result = queryAndCheck(updateBuilder("age=25", "firstname='John'"),
+                selectBuilder("*", "firstname='John'", "id"));
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0)).contains("John", 25);
     }
 
     @Test
-    public void executeUpdateMultiLine() throws Exception {
+    void executeUpdateMultiLine() throws Exception {
         simpleQuery(updateBuilder("age=93, firstname='Jany'", "firstname='Jane'"));
-        final List<List<Object>> result = queryAndCheck(updateBuilder("age=97, firstname='Johny'", "firstname='John'"), selectBuilder("*", "age>90", "id"));
-        assertThat(result.size(), equalTo(2));
-        assertThat(result.get(0), hasItems((Object) "Johny", 97));
-        assertThat(result.get(1), hasItems((Object) "Jany", 93));
+        final List<List<Object>> result = queryAndCheck(updateBuilder("age=97, firstname='Johny'", "firstname='John'"),
+                selectBuilder("*", "age>90", "id"));
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0)).contains("Johny", 97);
+        assertThat(result.get(1)).contains("Jany", 93);
     }
 
     @Test
-    public void executeDeleteOneLine() throws Exception {
-        List<List<Object>> result = queryAndCheck(insertBuilder("(firstname, age, lastname, average)", "('Arthur', 25, 'Doe', '17.0')"),
+    void executeDeleteOneLine() throws Exception {
+        List<List<Object>> result = queryAndCheck(
+                insertBuilder("(firstname, age, lastname, average)", "('Arthur', 25, 'Doe', '17.0')"),
                 selectBuilder("*", "firstname='Arthur'", "id"));
-        assertThat(result.size(), equalTo(1));
-        assertThat(result.get(0), hasItems("Arthur", (Object) "Doe", 25, 17.0));
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0)).contains("Arthur", "Doe", 25, 17.0);
         result = queryAndCheck(deleteBuilder("Firstname='Arthur'"), selectBuilder("*", "firstname='Arthur'", "id"));
-        assertThat(result.size(), equalTo(0));
+        assertThat(result).isEmpty();
     }
 
     @Test
-    public void executeBatchScript() throws Exception {
+    void executeBatchScript() throws Exception {
         genericBatchScriptTest(";");
     }
 
     @Test
-    public void executeBatchScriptWithAnOtherSeparator() throws Exception {
+    void executeBatchScriptWithAnOtherSeparator() throws Exception {
         genericBatchScriptTest("|");
     }
 
     private void createTable() throws Exception {
-        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getCreateTable()));
+        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getCreateTable()));
         jdbcConnector.connect();
         jdbcConnector.execute();
         jdbcConnector.disconnect();
     }
 
     private void simpleQuery(final Object query) throws ConnectorException {
-        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, query));
+        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, query));
         jdbcConnector.connect();
         jdbcConnector.execute();
         jdbcConnector.disconnect();
@@ -286,11 +292,13 @@ public class JdbcConnectorTest {
 
     private List<List<Object>> queryAndCheck(final Object query, final Object checkQuery) throws Exception {
         List<List<Object>> result;
-        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, query));
+        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, query));
         jdbcConnector.connect();
         jdbcConnector.execute();
         jdbcConnector.disconnect();
-        final JdbcConnector checkConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, checkQuery));
+        final JdbcConnector checkConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, checkQuery));
         result = executeAndGetResult(checkConnector);
         return result;
     }
@@ -319,18 +327,21 @@ public class JdbcConnectorTest {
     }
 
     private void insertValues() throws Exception {
-        JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getFirstInsertQuery()));
+        JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getFirstInsertQuery()));
         jdbcConnector.connect();
         jdbcConnector.execute();
         jdbcConnector.disconnect();
-        jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getSecondInsertQuery()));
+        jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getSecondInsertQuery()));
         jdbcConnector.connect();
         jdbcConnector.execute();
         jdbcConnector.disconnect();
     }
 
     private void dropTable() throws Exception {
-        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getDropTableQuery()));
+        final JdbcConnector jdbcConnector = getJdbcConnectorWithParameters(
+                Collections.singletonMap(JdbcConnector.SCRIPT, (Object) getDropTableQuery()));
         jdbcConnector.connect();
         jdbcConnector.execute();
         jdbcConnector.disconnect();
@@ -342,7 +353,8 @@ public class JdbcConnectorTest {
         strBatchScript = strBatchScript.replace("auto_increment", (String) prop.get(db + "auto_increment"));
         if (db.contains("oracle")) {
             strBatchScript = strBatchScript.replace("id INTEGER", "id");
-            strBatchScript = strBatchScript.replace("after_table_creation", prop.getProperty(db + "after_table_creation"));
+            strBatchScript = strBatchScript.replace("after_table_creation",
+                    prop.getProperty(db + "after_table_creation"));
         } else {
             strBatchScript = strBatchScript.replace("after_table_creation", "");
         }
@@ -387,7 +399,8 @@ public class JdbcConnectorTest {
 
     private String selectBuilder(final String columns, final String condition, final String order) {
         String strSelect = (String) prop.get(db + "select");
-        strSelect = strSelect.replace("columns", columns).replace("table_name", getTableName()).replace("condition", condition).replace("order", order);
+        strSelect = strSelect.replace("columns", columns).replace("table_name", getTableName())
+                .replace("condition", condition).replace("order", order);
         return strSelect;
     }
 
@@ -398,18 +411,21 @@ public class JdbcConnectorTest {
             if (values.contains("),")) {
                 final String[] tabValues = values.split("),");
                 for (final String val : tabValues) {
-                    strIntoValues = strIntoValues + "\nINTO " + getTableName() + " " + columns + " \nVALUES " + val + ")";
+                    strIntoValues = strIntoValues + "\nINTO " + getTableName() + " " + columns + " \nVALUES " + val
+                            + ")";
                 }
             }
         } else {
-            strInsert = strInsert.replace("table_name", getTableName()).replace("columns", columns).replace("values", values);
+            strInsert = strInsert.replace("table_name", getTableName()).replace("columns", columns).replace("values",
+                    values);
         }
         return strInsert;
     }
 
     private String updateBuilder(final String set_clause, final String condition) {
         String strUpdate = (String) prop.get(db + "update");
-        strUpdate = strUpdate.replace("table_name", getTableName()).replace("set_clause", set_clause).replace("condition", condition);
+        strUpdate = strUpdate.replace("table_name", getTableName()).replace("set_clause", set_clause)
+                .replace("condition", condition);
         return strUpdate;
     }
 
@@ -447,7 +463,9 @@ public class JdbcConnectorTest {
 
         return result;
     }
-    private List<List<Object>> toList(final ResultSet resultSet, final int fetchSize, final int columnsCount) throws SQLException {
+
+    private List<List<Object>> toList(final ResultSet resultSet, final int fetchSize, final int columnsCount)
+            throws SQLException {
         final List<List<Object>> values = new ArrayList<List<Object>>(fetchSize);
         if (resultSet != null) {
             while (resultSet.next()) {
@@ -462,7 +480,8 @@ public class JdbcConnectorTest {
         }
         return values;
     }
-    private List<String> executeAndGetColumns(final JdbcConnector datasourceConnector) throws Exception{
+
+    private List<String> executeAndGetColumns(final JdbcConnector datasourceConnector) throws Exception {
         datasourceConnector.connect();
         final Map<String, Object> execute = datasourceConnector.execute();
         ResultSet data = (ResultSet) execute.get("resultset");
