@@ -3,7 +3,7 @@
 
     <groupId>org.bonitasoft.connectors</groupId>
     <artifactId>bonita-connector-database</artifactId>
-    <version>2.0.3-SNAPSHOT</version>
+    <version>2.0.4-SNAPSHOT</version>
 
     <name>Database Connector</name>
 	<description>Database connector for Bonita</description>
