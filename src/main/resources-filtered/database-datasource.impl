@@ -6,7 +6,7 @@
     <description>Based on JDBC 4</description>
 	<implementationClassname>${datasource.main-class}</implementationClassname>
 	<implementationId>${datasource.impl.id}</implementationId>
-	<implementationVersion>${datasource.impl.version}/implementationVersion>
+	<implementationVersion>${datasource.impl.version}</implementationVersion>
 	
 <!-- retrieved from the pom.xml at build time -->
 ${connector-dependencies}

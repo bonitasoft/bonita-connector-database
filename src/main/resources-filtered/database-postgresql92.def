@@ -2,7 +2,7 @@
 <definition:ConnectorDefinition xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1"
                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<id>${postgresql92.def.id}</id>
-	<version>${postgresql92.def.id}</version>
+	<version>${postgresql92.def.version}</version>
 	<icon>postgresql.png</icon>
 
 	<category id="database" icon="database.png" />
