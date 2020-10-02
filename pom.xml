@@ -127,7 +127,6 @@
         <!-- Test -->
 		<junit-jupiter-engine.version>5.6.2</junit-jupiter-engine.version>
 		<junit-platform-runner.version>1.6.2</junit-platform-runner.version>
-		<wiremock.version>2.26.3</wiremock.version>
 		<assertj-core.version>3.16.1</assertj-core.version>
 		<jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
 		<sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
@@ -450,8 +449,8 @@
 	</distributionManagement>
 
     <scm>
-        <developerConnection>scm:git:https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/bonitasoft/bonita-connector-database.git</developerConnection>
-        <connection>scm:git:https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/bonitasoft/bonita-connector-database.git</connection>
+        <developerConnection>scm:git:git@github.com:bonitasoft/bonita-connector-database.git</developerConnection>
+        <connection>scm:git:git@github.com:bonitasoft/bonita-connector-database.git</connection>
         <url>https://github.com/bonitasoft/bonita-connector-database</url>
       <tag>HEAD</tag>
   </scm>
