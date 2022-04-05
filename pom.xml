@@ -127,7 +127,7 @@
         <!-- Test -->
 		<junit-jupiter-engine.version>5.6.2</junit-jupiter-engine.version>
 		<junit-platform-runner.version>1.6.2</junit-platform-runner.version>
-		<assertj-core.version>3.16.1</assertj-core.version>
+		<assertj-core.version>3.22.0</assertj-core.version>
 		<jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
 		<sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
 		<hsqldb.version>1.8.0.7</hsqldb.version>
