@@ -18,8 +18,8 @@
 package org.bonitasoft.connectors.database.datasource;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,13 +42,10 @@ import javax.sql.DataSource;
 
 import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
-import org.h2.jdbcx.JdbcDataSource;
-import org.hsqldb.jdbc.jdbcDataSource;
+import org.hsqldb.jdbc.JDBCDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import com.mysql.cj.jdbc.MysqlDataSource;
 
 /**
  * @author Baptiste Mesta
@@ -100,25 +97,11 @@ class DatasourceConnectorTest {
         final TypeDatabaseEnum type = TypeDatabaseEnum.valueOf(db.toUpperCase());
         db = db + ".datasource" + ".";
         switch (type) {
-            case MYSQL:
-                ds = new MysqlDataSource();
-                ((MysqlDataSource) ds).setServerName(prop.getProperty(db + "SERVERNAME"));
-                ((MysqlDataSource) ds).setPort(Integer.parseInt(prop.getProperty(db + "PORT")));
-                ((MysqlDataSource) ds).setDatabaseName(prop.getProperty(db + "DATABASENAME"));
-                ((MysqlDataSource) ds).setUser(prop.getProperty(db + "USERNAME"));
-                ((MysqlDataSource) ds).setPassword(prop.getProperty(db + "PASSWORD"));
-                break;
             case HSQL:
-                ds = new jdbcDataSource();
-                ((jdbcDataSource) ds).setDatabase(prop.getProperty(db + "JDBC_URL"));
-                ((jdbcDataSource) ds).setUser(prop.getProperty(db + "USERNAME"));
-                ((jdbcDataSource) ds).setPassword(prop.getProperty(db + "PASSWORD"));
-                break;
-            case H2:
-                ds = new JdbcDataSource();
-                ((JdbcDataSource) ds).setURL(prop.getProperty(db + "JDBC_URL"));
-                ((JdbcDataSource) ds).setUser(prop.getProperty(db + "USERNAME"));
-                ((JdbcDataSource) ds).setPassword(prop.getProperty(db + "PASSWORD"));
+                ds = new JDBCDataSource();
+                ((JDBCDataSource) ds).setDatabase(prop.getProperty(db + "JDBC_URL"));
+                ((JDBCDataSource) ds).setUser(prop.getProperty(db + "USERNAME"));
+                ((JDBCDataSource) ds).setPassword(prop.getProperty(db + "PASSWORD"));
                 break;
             default:
                 throw new Exception("This type of database is not supported");
@@ -222,7 +205,10 @@ class DatasourceConnectorTest {
         final Map<String, Object> execute = datasourceConnector.execute();
         ResultSet resultSet = (ResultSet) execute.get("resultset");
         assertNotNull(resultSet);
-        assertThat(resultSet.getFetchSize()).isEqualTo(1);
+        resultSet.first();
+        assertThat(resultSet.getString(2)).isEqualTo("John");
+        resultSet.next();
+        assertThat(resultSet.getString(2)).isEqualTo("Jane");
         datasourceConnector.disconnect();
     }
 
@@ -329,7 +315,7 @@ class DatasourceConnectorTest {
     void testInvalidColumnName() throws Exception {
         final DatasourceConnector datasourceConnector = getDatasourceConnectorWithNoParameter();
         final List<String> columns = executeAndGetColumns(datasourceConnector);
-        assertFalse("state is not a valid column name", columns.contains("state"));
+        assertFalse(columns.contains("state"), "state is not a valid column name");
     }
 
     @Test
