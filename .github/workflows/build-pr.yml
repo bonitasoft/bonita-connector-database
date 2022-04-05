@@ -34,7 +34,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         if: ${{ env.SONAR_TOKEN == '' }}
         run: ./mvnw -B -ntp clean verify
-         - run: mkdir staging && cp target/*.zip staging
+        
+      - run: mkdir staging && cp target/*.zip staging
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
