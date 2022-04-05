@@ -15,6 +15,6 @@ updates:
   # Maintain dependencies for maven
   - package-ecosystem: "maven" 
     directory: "/" 
-    target-branch: dev
+    target-branch: master
     schedule:
       interval: "daily"
