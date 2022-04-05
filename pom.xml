@@ -146,7 +146,7 @@
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-		<license-maven-plugin.version>4.0.rc2</license-maven-plugin.version>
+		<license-maven-plugin.version>4.2.rc3</license-maven-plugin.version>
 
 		<!-- Sonar -->
 		<sonar.projectKey>bonitasoft_bonita-connector-database</sonar.projectKey>
