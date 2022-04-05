@@ -11,9 +11,9 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    commit_message:
+    commit-message:
       prefix: "chore"
-      include_scope: true
+      include: "scope"
 
   # Maintain dependencies for maven
   - package-ecosystem: "maven" 
@@ -21,6 +21,6 @@ updates:
     target-branch: master
     schedule:
       interval: "daily"
-    commit_message:
+    commit-message:
       prefix: "chore"
-      include_scope: true
+      include: "scope"

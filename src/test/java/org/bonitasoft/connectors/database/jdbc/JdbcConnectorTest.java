@@ -18,10 +18,10 @@
 package org.bonitasoft.connectors.database.jdbc;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -126,7 +126,7 @@ class JdbcConnectorTest {
     void testGetAllValues() throws Exception {
         final JdbcConnector jdbcConnector = getJdbcConnectorWithNoParameter();
         final List<List<Object>> rowSet = executeAndGetResult(jdbcConnector);
-        assertEquals(1, rowSet.get(0).get(0));
+       assertEquals(1, rowSet.get(0).get(0));
         assertEquals("John", rowSet.get(0).get(1));
         assertEquals("Doe", rowSet.get(0).get(2));
         assertEquals(27, rowSet.get(0).get(3));
@@ -166,7 +166,10 @@ class JdbcConnectorTest {
         final Map<String, Object> execute = datasourceConnector.execute();
         ResultSet resultSet = (ResultSet) execute.get("resultset");
         assertNotNull(resultSet);
-        assertThat(resultSet.getFetchSize()).isEqualTo(1);
+        resultSet.first();
+        assertThat(resultSet.getString(2)).isEqualTo("John");
+        resultSet.next();
+        assertThat(resultSet.getString(2)).isEqualTo("Jane");
         datasourceConnector.disconnect();
     }
 
