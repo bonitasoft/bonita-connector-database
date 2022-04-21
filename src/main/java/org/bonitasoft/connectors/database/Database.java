@@ -98,8 +98,8 @@ public class Database {
     /**
      * Does not produce an output result. A Statement is created, executed and closed.
      * 
-     * @param commands, the list of SQL command to execute
-     * @param commit , commit after the batch execution
+     * @param commands the list of SQL command to execute
+     * @param commit commit after the batch execution
      * @throws SQLException
      * @throws ConnectorException
      */
