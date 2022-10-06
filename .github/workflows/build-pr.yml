@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
