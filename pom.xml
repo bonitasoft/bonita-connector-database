@@ -34,7 +34,7 @@
 		<maven.build.timestamp.format>yyyy.MM.dd-hh.mm</maven.build.timestamp.format>
 		
 		<!-- Bonita -->
-        <bonita.engine.version>7.13.0</bonita.engine.version>
+        <bonita.engine.version>7.15.0</bonita.engine.version>
         
         <!--Connector -->
         <jdbc-generic.def.id>database-jdbc</jdbc-generic.def.id>
