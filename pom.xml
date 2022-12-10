@@ -131,7 +131,7 @@
 		<sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
 		<hsqldb.version>2.7.1</hsqldb.version>
 		
-		<tomcat-catalina.version>9.0.69</tomcat-catalina.version>
+		<tomcat-catalina.version>9.0.70</tomcat-catalina.version>
 		
 		<!-- Maven plugins -->
 		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
