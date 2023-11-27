@@ -14,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Release connector
-        uses: bonitasoft/action-release-connector@1.0.0
+        uses: bonitasoft/action-release-connector@2.0.0
         id: release-connector
         with:
           release-version: ${{ github.event.inputs.version }}
