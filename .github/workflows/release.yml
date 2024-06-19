@@ -1,0 +1,18 @@
+name: Release
+
+run-name: ${{ github.event.inputs.version }} Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The version of the release. Used as tag name.'
+        required: true
+        default: 'x.y.z'
+
+jobs:
+  release:
+    uses: bonitasoft/github-workflows/.github/workflows/_reusable_release_connector.yml@main
+    with:
+      release-version: ${{ github.event.inputs.version }}
+    secrets: inherit
