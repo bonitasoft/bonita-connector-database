@@ -25,7 +25,7 @@ jobs:
       run: ./mvnw -B clean verify sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
     - run: mkdir staging && cp target/*.zip staging
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Connectors
         path: staging
