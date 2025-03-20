@@ -143,7 +143,7 @@
 		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
-		<license-maven-plugin.version>4.3</license-maven-plugin.version>
+		<license-maven-plugin.version>5.0.0</license-maven-plugin.version>
 		<maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
 
 		<!-- Sonar -->
