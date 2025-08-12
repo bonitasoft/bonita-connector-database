@@ -21,7 +21,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-          cache: 'maven'
+          cache: maven
 
       - name: Extract secrets from Keeper
         uses: Keeper-Security/ksm-action@v1
