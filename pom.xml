@@ -32,107 +32,107 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.build.timestamp.format>yyyy.MM.dd-hh.mm</maven.build.timestamp.format>
-		
+
 		<!-- Bonita -->
         <bonita.engine.version>7.13.0</bonita.engine.version>
-        
+
         <!--Connector -->
         <jdbc-generic.def.id>database-jdbc</jdbc-generic.def.id>
         <jdbc-generic.def.version>1.0.0</jdbc-generic.def.version>
         <jdbc-generic.impl.id>${jdbc-generic.def.id}-impl</jdbc-generic.impl.id>
         <jdbc-generic.impl.version>${project.version}</jdbc-generic.impl.version>
         <jdbc-generic.main-class>org.bonitasoft.connectors.database.jdbc.JdbcConnector</jdbc-generic.main-class>
-        		
+
 		<access.def.id>database-access</access.def.id>
 		<access.def.version>${jdbc-generic.def.version}</access.def.version>
 		<access.impl.id>${access.def.id}-impl</access.impl.id>
         <access.impl.version>${project.version}</access.impl.version>
-        
+
         <as400.def.id>database-as400</as400.def.id>
 		<as400.def.version>${jdbc-generic.def.version}</as400.def.version>
 		<as400.impl.id>${as400.def.id}-impl</as400.impl.id>
         <as400.impl.version>${project.version}</as400.impl.version>
-        
+
         <datasource.def.id>database-datasource</datasource.def.id>
 		<datasource.def.version>1.0.0</datasource.def.version>
 		<datasource.impl.id>${datasource.def.id}-impl</datasource.impl.id>
         <datasource.impl.version>${project.version}</datasource.impl.version>
         <datasource.main-class>org.bonitasoft.connectors.database.datasource.DatasourceConnector</datasource.main-class>
-        
+
         <db2.def.id>database-db2</db2.def.id>
 		<db2.def.version>${jdbc-generic.def.version}</db2.def.version>
 		<db2.impl.id>${db2.def.id}-impl</db2.impl.id>
         <db2.impl.version>${project.version}</db2.impl.version>
-        
+
         <h2.def.id>database-h2</h2.def.id>
 		<h2.def.version>${jdbc-generic.def.version}</h2.def.version>
 		<h2.impl.id>${h2.def.id}-impl</h2.impl.id>
         <h2.impl.version>${project.version}</h2.impl.version>
-        
+
         <hsqldb.def.id>database-hsqldb</hsqldb.def.id>
 		<hsqldb.def.version>${jdbc-generic.def.version}</hsqldb.def.version>
 		<hsqldb.impl.id>${hsqldb.def.id}-impl</hsqldb.impl.id>
         <hsqldb.impl.version>${project.version}</hsqldb.impl.version>
-        
+
         <informix.def.id>database-informix</informix.def.id>
 		<informix.def.version>${jdbc-generic.def.version}</informix.def.version>
 		<informix.impl.id>${informix.def.id}-impl</informix.impl.id>
         <informix.impl.version>${project.version}</informix.impl.version>
-        
+
         <ingres.def.id>database-ingres</ingres.def.id>
 		<ingres.def.version>${jdbc-generic.def.version}</ingres.def.version>
 		<ingres.impl.id>${ingres.def.id}-impl</ingres.impl.id>
         <ingres.impl.version>${project.version}</ingres.impl.version>
-        
+
         <mssqlserver.def.id>database-mssqlserver</mssqlserver.def.id>
 		<mssqlserver.def.version>1.2.1</mssqlserver.def.version>
 		<mssqlserver.impl.id>${mssqlserver.def.id}-impl</mssqlserver.impl.id>
         <mssqlserver.impl.version>${project.version}</mssqlserver.impl.version>
-        
+
         <mysql.def.id>database-mysql</mysql.def.id>
 		<mysql.def.version>${jdbc-generic.def.version}</mysql.def.version>
 		<mysql.impl.id>${mysql.def.id}-impl</mysql.impl.id>
         <mysql.impl.version>${project.version}</mysql.impl.version>
-        
+
         <oracle10g.def.id>database-oracle10g</oracle10g.def.id>
 		<oracle10g.def.version>${jdbc-generic.def.version}</oracle10g.def.version>
 		<oracle10g.impl.id>${oracle10g.def.id}-impl</oracle10g.impl.id>
         <oracle10g.impl.version>${project.version}</oracle10g.impl.version>
-        
+
         <oracle11g.def.id>database-oracle11g</oracle11g.def.id>
 		<oracle11g.def.version>${jdbc-generic.def.version}</oracle11g.def.version>
 		<oracle11g.impl.id>${oracle11g.def.id}-impl</oracle11g.impl.id>
         <oracle11g.impl.version>${project.version}</oracle11g.impl.version>
-        
+
         <postgresql84.def.id>database-postgresql84</postgresql84.def.id>
 		<postgresql84.def.version>${jdbc-generic.def.version}</postgresql84.def.version>
 		<postgresql84.impl.id>${postgresql84.def.id}-impl</postgresql84.impl.id>
         <postgresql84.impl.version>${project.version}</postgresql84.impl.version>
-        
+
         <postgresql92.def.id>database-postgresql92</postgresql92.def.id>
 		<postgresql92.def.version>${jdbc-generic.def.version}</postgresql92.def.version>
 		<postgresql92.impl.id>${postgresql92.def.id}-impl</postgresql92.impl.id>
         <postgresql92.impl.version>${project.version}</postgresql92.impl.version>
-        
+
         <sybase.def.id>database-sybase</sybase.def.id>
 		<sybase.def.version>${jdbc-generic.def.version}</sybase.def.version>
 		<sybase.impl.id>${sybase.def.id}-impl</sybase.impl.id>
         <sybase.impl.version>${project.version}</sybase.impl.version>
-        
+
         <teradata.def.id>database-teradata</teradata.def.id>
 		<teradata.def.version>${jdbc-generic.def.version}</teradata.def.version>
 		<teradata.impl.id>${teradata.def.id}-impl</teradata.impl.id>
         <teradata.impl.version>${project.version}</teradata.impl.version>
-        
+
         <!-- Test -->
 		<junit-jupiter-engine.version>5.10.1</junit-jupiter-engine.version>
 		<assertj-core.version>3.24.2</assertj-core.version>
 		<jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
 		<sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
 		<hsqldb.version>2.7.2</hsqldb.version>
-		
+
 		<tomcat-catalina.version>9.0.98</tomcat-catalina.version>
-		
+
 		<!-- Maven plugins -->
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<maven.compiler.release>${java.version}</maven.compiler.release>
@@ -140,7 +140,7 @@
 		<groovy-maven-plugin.version>2.1.1</groovy-maven-plugin.version>
 		<groovy.version>3.0.19</groovy.version>
 		<maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
-		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+		<central-maven-plugin>0.8.0</central-maven-plugin>
 		<maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
 		<license-maven-plugin.version>4.3</license-maven-plugin.version>
@@ -159,7 +159,7 @@
             <version>${bonita.engine.version}</version>
             <scope>provided</scope>
         </dependency>
-       
+
        <!-- Tests -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -292,14 +292,12 @@
 					<version>${sonar-maven-plugin.version}</version>
 				</plugin>
 				<plugin>
-					<groupId>org.sonatype.plugins</groupId>
-					<artifactId>nexus-staging-maven-plugin</artifactId>
-					<version>${nexus-staging-maven-plugin.version}</version>
+					<groupId>org.sonatype.central</groupId>
+					<artifactId>central-publishing-maven-plugin</artifactId>
+					<version>${central-maven-plugin.version}</version>
 					<extensions>true</extensions>
 					<configuration>
-						<serverId>ossrh</serverId>
-						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-						<autoReleaseAfterClose>false</autoReleaseAfterClose>
+						<autoPublish>true</autoPublish>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -403,18 +401,6 @@
 			</build>
 		</profile>
 	</profiles>
-
-	<distributionManagement>
-		<!-- Central Repository -->
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
 
     <scm>
         <developerConnection>scm:git:git@github.com:bonitasoft/bonita-connector-database.git</developerConnection>
