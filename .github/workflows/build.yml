@@ -3,6 +3,8 @@ name: Build
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - '**/*.md'
 
 jobs:
   build:
@@ -29,7 +31,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         SONAR_TOKEN: ${{env.SONAR_TOKEN}}
-      run: ./mvnw -B clean verify sonar:sonar
+      run: ./mvnw -B -ntp clean verify sonar:sonar
 
     - run: mkdir staging && cp target/*.zip staging
     - name: Upload artifact
