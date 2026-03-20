@@ -2,9 +2,9 @@ name: Claude Code Review
 
 on:
   pull_request:
-    types: [ opened, labeled ]
+    types: [opened, labeled]
   issue_comment:
-    types: [ created ]
+    types: [created]
 
 jobs:
   claude-review:
@@ -20,6 +20,7 @@ jobs:
       pull-requests: read
       issues: read
       id-token: write
+
     steps:
       - name: Get PR number
         id: pr-number
@@ -29,10 +30,12 @@ jobs:
           else
             echo "pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
           fi
+
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
+
       - name: Run Claude Code Review
         id: claude-review
         uses: anthropics/claude-code-action@v1
@@ -42,14 +45,23 @@ jobs:
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ steps.pr-number.outputs.pr_number }}
 
-            Please review this pull request and provide feedback on:
-            - Code quality and best practices
-            - Potential bugs or issues
-            - Performance considerations
-            - Security concerns
-            - Test coverage
+            You are reviewing a Bonita BPM connector. This is a production connector that will be deployed to enterprise Bonita environments.
 
-            Use the repository's CLAUDE.md for guidance on style and conventions. Be constructive and helpful in your feedback.
+            INSTRUCTIONS:
+            1. Read the CLAUDE.md file first — it contains project-specific context and may contain review checklists
+            2. If CLAUDE.md has a "Code Review Guidelines" section, run EVERY checklist item against the changed files
+            3. For each checklist item, mark it PASS or FAIL with a brief explanation
+            4. Flag ALL violations — do not skip items or give the benefit of the doubt
+            5. If you find a security issue, mark it with 🔴 CRITICAL
+            6. After any checklists, add a free-form section for issues not covered
+
+            Review scope (in priority order):
+            1. **Security** — credential/secret handling (no hardcoded keys, no secret logging, error messages don't leak internals), input validation, resource cleanup, OWASP top 10
+            2. **Correctness** — all outputs always set (success + errorMessage on every path), retry logic correct (only retryable HTTP codes), Bonita descriptor files (.def namespace 6.1, .impl namespace 6.0 with correct element order, .properties complete)
+            3. **Test quality** — no stub/empty tests, happy path + error path + validation tests per operation, mock injection via reflection, property tests meaningful, integration tests gated by @EnabledIfEnvironmentVariable, edge cases covered
+            4. **Code quality** — @Slf4j logging (no System.out), specific exception catches (no raw Exception), Java 17 features (records, text blocks), all deps provided scope, no SNAPSHOT versions, flat package structure
+
+            Be thorough and specific. Reference exact file names and line numbers. If something looks fine, say so briefly and move on. Spend the most time on things that are wrong.
 
             POST YOUR REVIEW BY UPDATING AN EXISTING CODE REVIEW COMMENT if exists, or by CREATING A NEW COMMENT otherwise:
 
@@ -75,5 +87,10 @@ jobs:
             1. NEVER create a new Claude Code Review comment if one exists - ALWAYS edit the existing one
             2. Always start with "## Claude Code Review" for identification
             3. Include timestamp to show when review was last updated
-            4. Prevent unwanted GitHub auto-linking and mentions
+            4. Prevent unwanted GitHub auto-linking and mentions:
+               - For numbers that should NOT link to issues/PRs: Insert a zero-width space after "#"
+               - For text with "@" that should NOT tag users: Insert a zero-width space after "@"
+               - Only use plain "#<number>" when intentionally referencing an issue/PR
+               - Only use plain "@<username>" when intentionally tagging a user
+
           claude_args: '--allowed-tools "Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*)"'
