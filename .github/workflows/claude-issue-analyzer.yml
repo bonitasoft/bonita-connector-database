@@ -1,0 +1,107 @@
+name: Claude Issue Analyzer
+
+on:
+  issues:
+    types: [opened]
+
+concurrency:
+  group: claude-issue-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  analyze-issue:
+    # Skip beta-feedback issues (handled by beta-status workflow)
+    # Skip issues created by bots
+    if: >-
+      !contains(github.event.issue.labels.*.name, 'beta-feedback') &&
+      github.actor != 'github-actions[bot]' &&
+      github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Analyze issue and propose fix
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ORGANIZATION_ANTHROPIC_API_KEY }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            ISSUE NUMBER: ${{ github.event.issue.number }}
+            ISSUE TITLE: ${{ github.event.issue.title }}
+            ISSUE BODY: ${{ github.event.issue.body }}
+            ISSUE LABELS: ${{ join(github.event.issue.labels.*.name, ', ') }}
+            ISSUE AUTHOR: ${{ github.event.issue.user.login }}
+
+            You are a senior Bonita connector developer. A new issue has been filed on this repository.
+            Read the CLAUDE.md file first to understand the project.
+
+            WORKFLOW:
+
+            1. **Classify the issue** — is it a bug report, feature request, improvement, question, or invalid?
+               - If it's a question or invalid, just comment with an answer/guidance and stop (no PR).
+
+            2. **Analyze the codebase** — identify which files need to change and why.
+               - Read the relevant source files, tests, and descriptor files (.def, .impl, .properties)
+               - Understand the current behavior vs. expected behavior
+               - Check if tests already cover this scenario
+
+            3. **Comment on the issue** with your analysis:
+               - Classification (bug/feature/improvement)
+               - Root cause (for bugs) or design approach (for features)
+               - Files that need to change
+               - Impact assessment (which operations affected, breaking changes?)
+
+            4. **Create a draft PR with the fix/implementation:**
+               - Create a branch: `fix/{issue-number}-{short-description}` for bugs, `feat/{issue-number}-{short-description}` for features
+               - Make the code changes
+               - Write or update tests (follow TDD — the project uses JUnit 5, Mockito, AssertJ, jqwik)
+               - Run `mvn clean verify -DskipTests` to ensure compilation
+               - Commit with conventional commit message referencing the issue: `fix: description (closes #{issue-number})`
+               - Push the branch and create a draft PR
+               - Request review from `pabloalonso`
+               - Link the PR to the issue in the PR body
+
+            5. **Comment on the issue** with a link to the draft PR
+
+            IMPORTANT RULES:
+            - Follow the code review guidelines in CLAUDE.md (security, quality, test quality)
+            - All outputs must always be set (success + errorMessage on every path)
+            - Use @Slf4j, never System.out
+            - All non-test deps must be `provided` scope
+            - Keep the flat package structure (com.bonitasoft.connectors.*)
+            - Version must stay at the current beta version — do NOT change versions
+            - If the issue is too complex or ambiguous, comment asking for clarification instead of creating a PR
+            - Always create DRAFT PRs, never regular PRs
+            - Request review from `pabloalonso`
+
+            FORMAT YOUR ISSUE COMMENT AS:
+            ## Issue Analysis
+
+            **Classification:** [Bug / Feature / Improvement]
+
+            **Root Cause / Approach:**
+            [explanation]
+
+            **Files to change:**
+            - `path/to/file.java` — [what changes]
+
+            **Impact:** [which operations affected, breaking changes]
+
+            **Draft PR:** #XX (if created)
+
+          claude_args: '--allowed-tools "Bash(gh issue comment:*),Bash(gh pr create:*),Bash(gh pr edit:*),Bash(git:*),Bash(mvn:*),Bash(grep:*),Bash(find:*),Bash(cat:*),Bash(sed:*),Bash(mkdir:*)"'

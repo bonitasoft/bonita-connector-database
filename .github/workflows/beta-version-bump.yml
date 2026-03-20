@@ -1,0 +1,91 @@
+name: Beta Version Bump
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+concurrency:
+  group: beta-version-bump
+  cancel-in-progress: false
+
+jobs:
+  bump-beta:
+    # Only on merged PRs with fix: or feat: prefix, and only if current version is beta
+    if: >-
+      github.event.pull_request.merged == true &&
+      (startsWith(github.event.pull_request.title, 'fix:') ||
+       startsWith(github.event.pull_request.title, 'fix(') ||
+       startsWith(github.event.pull_request.title, 'feat:') ||
+       startsWith(github.event.pull_request.title, 'feat('))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Check if beta version
+        id: check
+        run: |
+          VERSION=$(grep -m1 '<version>' pom.xml | sed 's/.*<version>//;s/<\/version>.*//' | tr -d '[:space:]')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          if [[ "$VERSION" == *"-beta."* ]]; then
+            # Extract base and beta number
+            BASE=$(echo "$VERSION" | sed 's/-beta\..*//')
+            BETA_NUM=$(echo "$VERSION" | grep -o 'beta\.[0-9]*' | grep -o '[0-9]*')
+            NEXT_NUM=$((BETA_NUM + 1))
+            NEXT_VERSION="${BASE}-beta.${NEXT_NUM}"
+            echo "is_beta=true" >> $GITHUB_OUTPUT
+            echo "next_version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+            echo "Current: $VERSION → Next: $NEXT_VERSION"
+          else
+            echo "is_beta=false" >> $GITHUB_OUTPUT
+            echo "Not a beta version ($VERSION), skipping bump"
+          fi
+
+      - name: Bump beta version
+        if: steps.check.outputs.is_beta == 'true'
+        run: |
+          NEXT='${{ steps.check.outputs.next_version }}'
+          CURRENT='${{ steps.check.outputs.version }}'
+
+          # Bump POM project version
+          sed -i "0,/<version>${CURRENT}<\/version>/s//<version>${NEXT}<\/version>/" pom.xml
+
+          # Bump all *.def.version properties
+          sed -i "s|\.def\.version>${CURRENT}</|.def.version>${NEXT}</|g" pom.xml
+
+          # Update beta-status.json currentVersion
+          if [ -f beta-status.json ]; then
+            jq --arg v "$NEXT" '.currentVersion = $v' beta-status.json > tmp.json && mv tmp.json beta-status.json
+          fi
+
+          # Update beta-feedback issue template with new version option
+          TEMPLATE=".github/ISSUE_TEMPLATE/beta-feedback.yml"
+          if [ -f "$TEMPLATE" ]; then
+            # Add new version to dropdown if not already present
+            if ! grep -q "$NEXT" "$TEMPLATE"; then
+              sed -i "s/        - ${CURRENT}/        - ${NEXT}\n        - ${CURRENT}/" "$TEMPLATE"
+            fi
+          fi
+
+          echo "Bumped: $CURRENT → $NEXT"
+
+      - name: Commit and push
+        if: steps.check.outputs.is_beta == 'true'
+        run: |
+          NEXT='${{ steps.check.outputs.next_version }}'
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pom.xml beta-status.json .github/ISSUE_TEMPLATE/beta-feedback.yml
+          git diff --cached --quiet || {
+            git commit -m "chore: bump beta version to ${NEXT} [skip ci]"
+            git pull --rebase origin main || true
+            git push
+          }
