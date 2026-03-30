@@ -9,6 +9,10 @@ on:
         description: 'The version of the release. Used as tag name.'
         required: true
         default: 'x.y.z'
+      update_marketplace:
+        description: 'Update marketplace after release'
+        type: boolean
+        default: false
 
 jobs:
   release:
@@ -16,3 +20,21 @@ jobs:
     with:
       release-version: ${{ github.event.inputs.version }}
     secrets: inherit
+
+  notify-marketplace:
+    needs: release
+    if: ${{ inputs.update_marketplace }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Notify marketplace
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
+          repository: bonitasoft/bonita-marketplace
+          event-type: new-connector-release
+          client-payload: >-
+            {
+              "artifactId": "bonita-connector-database",
+              "version": "${{ inputs.version }}",
+              "bonitaMinVersion": "7.13.0"
+            }
