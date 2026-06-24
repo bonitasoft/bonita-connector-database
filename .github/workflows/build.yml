@@ -47,7 +47,7 @@ jobs:
 
     - run: mkdir staging && cp target/*.zip staging
     - name: Upload artifact
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v7
       with:
         name: Connectors
         path: staging
