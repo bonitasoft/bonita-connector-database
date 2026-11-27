@@ -7,6 +7,16 @@
 
 JDBC and Datasource database connectors for Bonita
 
+## Compatibility
+
+| Connector      | Bonita         | Java         |
+|----------------|----------------|--------------|
+| 3.x (`master`) | 12.0 and later | 17 and later |
+| 2.x            | 7.8 to 11.x    | 8 / 11       |
+
+The connector definitions and their inputs/outputs are unchanged. JDBC drivers are not bundled in the connector
+archives: add the driver of your database as a dependency of the process.
+
 ## Build
 
 __Clone__ or __fork__ this repository, then at the root of the project run:

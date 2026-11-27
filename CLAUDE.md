@@ -4,7 +4,8 @@
 
 **Name:** Database Connector for Bonita
 **Artifact:** `org.bonitasoft.connectors:bonita-connector-database`
-**Current version:** 2.1.0-SNAPSHOT
+**Current version:** 3.0.0-SNAPSHOT
+**Bonita runtime:** 12.0+ (2.x line for Bonita 7.x - 11.x)
 **License:** GPL-2.0
 **Description:** A Bonita connector that enables Bonita processes to interact with relational databases via JDBC drivers or JNDI DataSources. It supports a wide range of database engines (MySQL, PostgreSQL, Oracle, SQL Server, DB2, H2, HSQLDB, Sybase, Teradata, Informix, Ingres, AS400, MS Access).
 
@@ -12,7 +13,7 @@
 
 ## Build Commands
 
-The project uses Maven Wrapper (`./mvnw`). Java 11 is required at the source level; CI uses Java 17.
+The project uses Maven Wrapper (`./mvnw`). Java 17 is required (source level and CI).
 
 ```bash
 # Full build (compile, test, package)

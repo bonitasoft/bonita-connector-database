@@ -15,39 +15,51 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-    - name: Cache SonarCloud packages
-      if: github.event_name == 'pull_request'
-      uses: actions/cache@v4
-      with:
-        path: ~/.sonar/cache
-        key: ${{ runner.os }}-sonar
-        restore-keys: ${{ runner.os }}-sonar
+      - name: Cache SonarCloud packages
+        if: github.event_name == 'pull_request'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
 
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        java-version: 17
-        distribution: temurin
-        cache: maven
+      - name: Setup Java
+        uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
+        with:
+          java-version: 17
+          distribution: temurin
+          cache: maven
 
-    - name: Extract secrets from Keeper
-      uses: Keeper-Security/ksm-action@v1
-      with:
-        keeper-secret-config: ${{ secrets.KSM_CONFIG }}
-        secrets: |
-          ${{ vars.KEEPER_SONARCLOUD_RECORD_ID }}/field/password > env:SONAR_TOKEN
+      # Only the secrets this job needs: the build runs code from the pull request
+      # TODO Bonita 12.0 GA: drop the two JFROG_* secrets (only needed for the runtime snapshots)
+      - name: Extract secrets from Keeper
+        uses: Keeper-Security/ksm-action@3a1d7a4b72f910a8ed46377b3b015fbabe60689b # v1.3.3
+        with:
+          keeper-secret-config: ${{ secrets.KSM_CONFIG }}
+          secrets: |
+            ${{ vars.KEEPER_SONARCLOUD_RECORD_ID }}/field/password > env:SONAR_TOKEN
+            ${{ vars.KEEPER_JFROG_RECORD_ID }}/field/login > env:JFROG_USER
+            ${{ vars.KEEPER_JFROG_RECORD_ID }}/field/password > env:JFROG_TOKEN
 
-    - name: Build and test
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        SONAR_TOKEN: ${{env.SONAR_TOKEN}}
-      run: ./mvnw -B -ntp clean verify sonar:sonar
+      # TODO Bonita 12.0 GA: remove this step once Bonita 12.0 is released on Maven Central
+      # (only needed to resolve the runtime snapshots)
+      - name: Setup Maven settings (Bonita Artifactory read access)
+        run: mkdir -p ~/.m2 && cp .github/maven-settings.xml ~/.m2/settings.xml
 
-    - run: mkdir staging && cp target/*.zip staging
-    - name: Upload artifact
-      uses: actions/upload-artifact@v5
-      with:
-        name: Connectors
-        path: staging
+      - name: Build and test
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          SONAR_TOKEN: ${{env.SONAR_TOKEN}}
+        run: ./mvnw -B -ntp clean verify sonar:sonar
+
+      - name: Copy artifacts for staging
+        run: mkdir staging && cp target/*.zip staging
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: Connectors
+          path: staging

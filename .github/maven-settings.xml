@@ -1,0 +1,48 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+
+  <!--
+    CI only: read access to the Bonitasoft Artifactory, to resolve the Bonita 12.0-SNAPSHOT runtime.
+    No credential is stored here: Maven resolves ${env.JFROG_*} from the job environment (Keeper step).
+    TODO Bonita 12.0 GA: delete this file and the workflow steps that install it.
+  -->
+
+  <servers>
+    <server>
+      <id>bonita-releases</id>
+      <username>${env.JFROG_USER}</username>
+      <password>${env.JFROG_TOKEN}</password>
+    </server>
+    <server>
+      <id>bonita-snapshots</id>
+      <username>${env.JFROG_USER}</username>
+      <password>${env.JFROG_TOKEN}</password>
+    </server>
+  </servers>
+
+  <profiles>
+    <profile>
+      <id>bonita-artifactory</id>
+      <repositories>
+        <repository>
+          <id>bonita-releases</id>
+          <url>https://bonitasoft.jfrog.io/artifactory/releases</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+        <repository>
+          <id>bonita-snapshots</id>
+          <url>https://bonitasoft.jfrog.io/artifactory/snapshots</url>
+          <releases><enabled>false</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>bonita-artifactory</activeProfile>
+  </activeProfiles>
+
+</settings>
