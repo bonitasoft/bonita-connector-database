@@ -3,7 +3,7 @@
 
     <groupId>org.bonitasoft.connectors</groupId>
     <artifactId>bonita-connector-database</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
 
     <name>Database Connector</name>
 	<description>Database connector for Bonita</description>
@@ -28,13 +28,14 @@
 
     <properties>
     	<!-- Maven -->
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.build.timestamp.format>yyyy.MM.dd-hh.mm</maven.build.timestamp.format>
 
 		<!-- Bonita -->
-        <bonita.engine.version>7.13.0</bonita.engine.version>
+        <!-- TODO Bonita 12.0 GA: switch to 12.0.0 -->
+        <bonita-runtime.version>12.0-SNAPSHOT</bonita-runtime.version>
 
         <!--Connector -->
         <jdbc-generic.def.id>database-jdbc</jdbc-generic.def.id>
@@ -128,18 +129,19 @@
 		<junit-jupiter-engine.version>5.10.1</junit-jupiter-engine.version>
 		<assertj-core.version>3.27.7</assertj-core.version>
 		<jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
-		<sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
+		<sonar-maven-plugin.version>5.0.0.4389</sonar-maven-plugin.version>
 		<hsqldb.version>2.7.2</hsqldb.version>
 
 		<tomcat-catalina.version>9.0.117</tomcat-catalina.version>
 
 		<!-- Maven plugins -->
-		<maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
+		<maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
 		<maven.compiler.release>${java.version}</maven.compiler.release>
-		<maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
-		<groovy-maven-plugin.version>2.1.1</groovy-maven-plugin.version>
-		<groovy.version>3.0.25</groovy.version>
-		<maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+		<maven-assembly-plugin.version>3.8.0</maven-assembly-plugin.version>
+		<gmavenplus-plugin.version>5.1.0</gmavenplus-plugin.version>
+		<!-- Groovy, used by the build scripts -->
+		<groovy.version>4.0.32</groovy.version>
+		<maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
 		<central-maven-plugin.version>0.8.0</central-maven-plugin.version>
 		<maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
@@ -152,11 +154,22 @@
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.bonitasoft.runtime</groupId>
+                <artifactId>bonita-runtime-bom</artifactId>
+                <version>${bonita-runtime.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <artifactId>bonita-common</artifactId>
             <groupId>org.bonitasoft.engine</groupId>
-            <version>${bonita.engine.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -241,18 +254,6 @@
 					</executions>
 				</plugin>
 				<plugin>
-					<groupId>org.codehaus.gmaven</groupId>
-					<artifactId>groovy-maven-plugin</artifactId>
-					<version>${groovy-maven-plugin.version}</version>
-					<dependencies>
-						<dependency>
-							<groupId>org.codehaus.groovy</groupId>
-							<artifactId>groovy</artifactId>
-							<version>${groovy.version}</version>
-						</dependency>
-					</dependencies>
-				</plugin>
-				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${maven-surefire-plugin.version}</version>
@@ -318,8 +319,9 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.gmaven</groupId>
-				<artifactId>groovy-maven-plugin</artifactId>
+				<groupId>org.codehaus.gmavenplus</groupId>
+				<artifactId>gmavenplus-plugin</artifactId>
+				<version>${gmavenplus-plugin.version}</version>
 				<executions>
 					<execution>
 						<phase>generate-resources</phase>
@@ -327,10 +329,24 @@
 							<goal>execute</goal>
 						</goals>
 						<configuration>
-							<source>${project.basedir}/src/script/dependencies-as-var.groovy</source>
+							<scripts>
+								<script>${project.basedir}/src/script/dependencies-as-var.groovy</script>
+							</scripts>
 						</configuration>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.groovy</groupId>
+						<artifactId>groovy</artifactId>
+						<version>${groovy.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.groovy</groupId>
+						<artifactId>groovy-xml</artifactId>
+						<version>${groovy.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
